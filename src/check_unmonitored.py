@@ -108,7 +108,16 @@ def pull_data(cur,whitelist=['Decommisioned','VA - spare-servers']):
         log.debug(sql_whitelist_group)
         whitelist_groups.append(query_db(sql_whitelist_group,cur))
 
+    # Check unmonitored hosts !-> whitelist
+    """Some sql that takes hostid, and ensures that the host is not in groups
+    in whitelist"""
+
     log.debug('whitelist group consists of %s ' % str(whitelist_groups))
+
+def zabbix_push(hostid):
+    # Having found a host that is unmonitored, but not in a whitelisted group, 
+    # Push that into zabbix for it to deal with.
+    log.debug("Host %s has escaped monitoring, without appropriate group membership" % hostid)
 
 if __name__ == '__main__':
     logging.basicConfig(level = logging.WARN,
