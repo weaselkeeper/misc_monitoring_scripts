@@ -59,7 +59,7 @@ def get_config():
         configuration['user']   = parser.get('ZabbixDB', 'DBUSER')
         configuration['db']     = parser.get('ZabbixDB', 'DBNAME')
         configuration['pass']   = parser.get('ZabbixDB', 'DBPASS')
-        configuration['whitelist'] = parser.get('ZabbixDB', 'WHITELIST').split(' ')
+        configuration['whitelist'] = parser.get('ZabbixDB', 'WHITELIST').split(',')
     except:
         log.warn('something wrong with the config file? ')
         sys.exit(1)
@@ -93,24 +93,22 @@ def query_db(sql,cur):
     return query_result
 
 
-def pull_data(cur,whitelist=''):
-
-    sql_whitelist_group = ("SELECT groupid from groups where groups.name = \'%s\'") % 'Decommisioned'
-    log.debug(sql_whitelist_group)
-    whitelist_group_ids = query_db(sql_whitelist_group,cur)
-
-    """ Work on the actual sql later"""
+def pull_data(cur,whitelist=['Decommisioned','VA - spare-servers']):
     # get list of unmonitored hosts
-    sql_unmonitored = """ SELECT hostid from hosts where hosts.status = 1; """
+    sql_unmonitored = """ SELECT hosts.hostid FROM hosts WHERE hosts.status=1; """
     unmonitored_hosts = query_db(sql_unmonitored,cur)
-
     for host in unmonitored_hosts:
         # Check if host is in whitelisted groups, if not, add it to the lsit
         # of bad hosts.
         pass
 
-    print whitelist_group_ids
+    whitelist_groups =[] # start with an empty list
+    for group in whitelist:
+        sql_whitelist_group = ("SELECT groupid from groups where groups.name = \'%s\';") % group
+        log.debug(sql_whitelist_group)
+        whitelist_groups.append(query_db(sql_whitelist_group,cur))
 
+    log.debug('whitelist group consists of %s ' % str(whitelist_groups))
 
 if __name__ == '__main__':
     logging.basicConfig(level = logging.WARN,
@@ -119,9 +117,8 @@ if __name__ == '__main__':
                         )
     console = logging.StreamHandler(sys.stderr)
     console.setLevel(logging.WARN)
-    logging.getLogger('forgetmenot').addHandler(console)
-    log = logging.getLogger('forgetmenot')
+    logging.getLogger('check_unmonitored').addHandler(console)
+    log = logging.getLogger('check_unmonitored')
 
     _config = get_config()
     db = pull_data(get_db(_config))
-    print db
