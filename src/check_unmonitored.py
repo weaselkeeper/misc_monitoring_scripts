@@ -82,17 +82,34 @@ def get_db(configuration):
     return cur
 
 
-def pull_data(cur):
-    """ Work on the actual sql later"""
-    # get list of unmonitored hosts
-    sql_unmonitored = """
-    SELECT hostid from hosts where hosts.status = 1; """
+def query_db(sql,cur):
+    # make the query, return the result
     try:
         cur.execute(sql)
-        results = cur.fetchall()
+        query_result = cur.fetchall()
     except:
         log.warn("something went wrong with the database query")
-    return results
+        sys.exit(1)
+    return query_result
+
+
+def pull_data(cur,whitelist=''):
+
+    sql_whitelist_group = ("SELECT groupid from groups where groups.name = \'%s\'") % 'Decommisioned'
+    log.debug(sql_whitelist_group)
+    whitelist_group_ids = query_db(sql_whitelist_group,cur)
+
+    """ Work on the actual sql later"""
+    # get list of unmonitored hosts
+    sql_unmonitored = """ SELECT hostid from hosts where hosts.status = 1; """
+    unmonitored_hosts = query_db(sql_unmonitored,cur)
+
+    for host in unmonitored_hosts:
+        # Check if host is in whitelisted groups, if not, add it to the lsit
+        # of bad hosts.
+        pass
+
+    print whitelist_group_ids
 
 
 if __name__ == '__main__':
