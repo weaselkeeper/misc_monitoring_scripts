@@ -84,13 +84,14 @@ def get_db(configuration):
 
 def pull_data(cur):
     """ Work on the actual sql later"""
-    sql = """
-    SELECT * from hosts limit 1; """
+    # get list of unmonitored hosts
+    sql_unmonitored = """
+    SELECT hostid from hosts where hosts.status = 1; """
     try:
         cur.execute(sql)
         results = cur.fetchall()
     except:
-        log.WARN("something went wrong with the database query")
+        log.warn("something went wrong with the database query")
     return results
 
 
@@ -106,4 +107,4 @@ if __name__ == '__main__':
 
     _config = get_config()
     db = pull_data(get_db(_config))
-
+    print db
