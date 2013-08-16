@@ -94,7 +94,13 @@ def query_db(sql,cur):
 
 
 def pull_data(cur,whitelist=['Decommisioned','VA - spare-servers']):
-    # get list of unmonitored hosts
+    whitelist_groups =[] # start with an empty list
+    for group in whitelist:
+        sql_whitelist_group = ("SELECT groupid from groups where groups.name = \'%s\';") % group
+        log.debug(sql_whitelist_group)
+        whitelist_groups.append(query_db(sql_whitelist_group,cur))
+
+   # get list of unmonitored hosts
     sql_unmonitored = """ SELECT hosts.hostid FROM hosts WHERE hosts.status=1; """
     unmonitored_hosts = query_db(sql_unmonitored,cur)
     for host in unmonitored_hosts:
@@ -102,13 +108,7 @@ def pull_data(cur,whitelist=['Decommisioned','VA - spare-servers']):
         # of bad hosts.
         pass
 
-    whitelist_groups =[] # start with an empty list
-    for group in whitelist:
-        sql_whitelist_group = ("SELECT groupid from groups where groups.name = \'%s\';") % group
-        log.debug(sql_whitelist_group)
-        whitelist_groups.append(query_db(sql_whitelist_group,cur))
-
-    # Check unmonitored hosts !-> whitelist
+        # Check unmonitored hosts !-> whitelist
     """Some sql that takes hostid, and ensures that the host is not in groups
     in whitelist"""
 
