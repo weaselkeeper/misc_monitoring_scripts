@@ -107,7 +107,9 @@ def pull_data(cur,whitelist=['Decommisioned','VA - spare-servers']):
         # Check if host is in whitelisted groups, if not, add it to the list
         # of bad hosts.
         # Check unmonitored hosts !-> whitelist
-        """Some sql that takes hostid, and ensures that the host is not in groups in whitelist"""
+        check_groups = "SELECT groupid from hosts_groups where hostid=\'%s\';" % host
+        print check_groups
+        print query_db(check_groups,cur)
 
     log.debug('whitelist group consists of %s ' % str(whitelist_groups))
 
