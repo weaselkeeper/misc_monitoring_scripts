@@ -97,20 +97,29 @@ def pull_data(cur,whitelist):
     whitelist_groups = [] # start with an empty list
     for group in whitelist:
         sql_whitelist_group = ("SELECT groupid from groups where groups.name = \'%s\';") % group
-        whitelist_groups.append(query_db(sql_whitelist_group,cur))
+        whitelist_groups.append(query_db(sql_whitelist_group,cur)[0])
         log.debug(sql_whitelist_group)
 
    # get list of unmonitored hosts
-    sql_unmonitored = """ SELECT hosts.hostid FROM hosts WHERE hosts.status=1; """
+    sql_unmonitored = """ SELECT hosts.hostid,hosts.host FROM hosts WHERE hosts.status=1; """
+    check_hostlist = []
     unmonitored_hosts = query_db(sql_unmonitored,cur)
     for host in unmonitored_hosts:
+        is_whitelisted = 0
         # Check if host is in whitelisted groups, if not, add it to the list
         # of bad hosts.
         # Check unmonitored hosts !-> whitelist
-        check_groups = "SELECT groupid from hosts_groups where hostid=\'%s\';" % host
+        check_groups = "SELECT groupid from hosts_groups where hostid=\'%s\';" % host[0]
         log.debug(check_groups)
-        log.warn(query_db(check_groups,cur))
-    log.warn('whitelist group consists of %s ' % str(whitelist_groups))
+        groups = query_db(check_groups,cur)
+        for group in groups:
+            if group in whitelist_groups:
+                is_whitelisted = 1
+        if is_whitelisted:
+            check_hostlist.append(host[1])
+    log.debug('whitelist group consists of %s ' % str(whitelist_groups))
+    log.debug('unmonitored hosts not in whitelist %s ' %  str(check_hostlist))
+    return check_hostlist
 
 def zabbix_push(hostid):
     # Having found a host that is unmonitored, but not in a whitelisted group,
@@ -128,4 +137,6 @@ if __name__ == '__main__':
     log = logging.getLogger('check_unmonitored')
 
     _config = get_config()
-    db = pull_data(get_db(_config),_config['whitelist'])
+    unmonitored_hosts_no_whitelist = pull_data(get_db(_config),_config['whitelist'])
+    log.warn(unmonitored_hosts_no_whitelist)
+
