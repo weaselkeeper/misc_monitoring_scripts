@@ -116,15 +116,16 @@ def pull_data(cur,whitelist):
             if group in whitelist_groups:
                 is_whitelisted = 1
         if is_whitelisted:
-            check_hostlist.append(host[1])
+            check_hostlist.append(host)
     log.debug('whitelist group consists of %s ' % str(whitelist_groups))
     log.debug('unmonitored hosts not in whitelist %s ' %  str(check_hostlist))
     return check_hostlist
 
-def zabbix_push(hostid):
+def zabbix_push(host):
     # Having found a host that is unmonitored, but not in a whitelisted group,
     # Push that into zabbix for it to deal with.
-    log.debug("Host %s has escaped monitoring, without appropriate group membership" % hostid)
+    log.debug("Host %s has escaped monitoring, without appropriate group membership" % host[1])
+    # Now turn monitoring on via api in zabbix, for this host.
 
 if __name__ == '__main__':
     logging.basicConfig(level = logging.WARN,
@@ -138,5 +139,7 @@ if __name__ == '__main__':
 
     _config = get_config()
     unmonitored_hosts_no_whitelist = pull_data(get_db(_config),_config['whitelist'])
-    log.warn(unmonitored_hosts_no_whitelist)
-
+    log.debug(unmonitored_hosts_no_whitelist)
+    for host in unmonitored_hosts_no_whitelist:
+        zabbix_push(host)
+    
