@@ -94,11 +94,11 @@ def query_db(sql,cur):
 
 
 def pull_data(cur,whitelist):
-    whitelist_groups =[] # start with an empty list
+    whitelist_groups = [] # start with an empty list
     for group in whitelist:
         sql_whitelist_group = ("SELECT groupid from groups where groups.name = \'%s\';") % group
-        log.debug(sql_whitelist_group)
         whitelist_groups.append(query_db(sql_whitelist_group,cur))
+        log.debug(sql_whitelist_group)
 
    # get list of unmonitored hosts
     sql_unmonitored = """ SELECT hosts.hostid FROM hosts WHERE hosts.status=1; """
@@ -108,10 +108,9 @@ def pull_data(cur,whitelist):
         # of bad hosts.
         # Check unmonitored hosts !-> whitelist
         check_groups = "SELECT groupid from hosts_groups where hostid=\'%s\';" % host
-        print check_groups
-        print query_db(check_groups,cur)
-
-    log.debug('whitelist group consists of %s ' % str(whitelist_groups))
+        log.debug(check_groups)
+        log.warn(query_db(check_groups,cur))
+    log.warn('whitelist group consists of %s ' % str(whitelist_groups))
 
 def zabbix_push(hostid):
     # Having found a host that is unmonitored, but not in a whitelisted group,
@@ -129,5 +128,4 @@ if __name__ == '__main__':
     log = logging.getLogger('check_unmonitored')
 
     _config = get_config()
-    print _config['whitelist']
     db = pull_data(get_db(_config),_config['whitelist'])
