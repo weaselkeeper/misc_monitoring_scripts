@@ -93,7 +93,7 @@ def query_db(sql,cur):
     return query_result
 
 
-def pull_data(cur,whitelist=['Decommisioned','VA - spare-servers']):
+def pull_data(cur,whitelist):
     whitelist_groups =[] # start with an empty list
     for group in whitelist:
         sql_whitelist_group = ("SELECT groupid from groups where groups.name = \'%s\';") % group
@@ -129,4 +129,5 @@ if __name__ == '__main__':
     log = logging.getLogger('check_unmonitored')
 
     _config = get_config()
-    db = pull_data(get_db(_config))
+    print _config['whitelist']
+    db = pull_data(get_db(_config),_config['whitelist'])
