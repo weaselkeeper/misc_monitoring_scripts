@@ -25,7 +25,7 @@ import logging
 # script specific imports.
 import time
 import os
-import zabbix
+import zabbix_api
 import sys
 import tempfile
 import MySQLdb as db
