@@ -25,6 +25,7 @@ import logging
 # script specific imports.
 import time
 import os
+import zabbix
 import sys
 import tempfile
 import MySQLdb as db
@@ -124,7 +125,7 @@ def pull_data(cur,whitelist):
 def zabbix_push(host):
     # Having found a host that is unmonitored, but not in a whitelisted group,
     # Push that into zabbix for it to deal with.
-    log.debug("Host %s has escaped monitoring, without appropriate group membership" % host[1])
+    log.warn("Host %s has escaped monitoring, without appropriate group membership" % host[1])
     # Now turn monitoring on via api in zabbix, for this host.
 
 if __name__ == '__main__':
@@ -142,4 +143,3 @@ if __name__ == '__main__':
     log.debug(unmonitored_hosts_no_whitelist)
     for host in unmonitored_hosts_no_whitelist:
         zabbix_push(host)
-    
