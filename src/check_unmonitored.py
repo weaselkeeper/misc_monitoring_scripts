@@ -86,6 +86,7 @@ def query_db(sql,cur):
     # make the query, return the result
     try:
         cur.execute(sql)
+        log.warn(sql)
         query_result = cur.fetchall()
     except:
         log.warn("something went wrong with the database query")
@@ -93,17 +94,17 @@ def query_db(sql,cur):
     return query_result
 
 
-def pull_data(cur,whitelist):
+def pull_data(cursor,whitelist):
     whitelist_groups = [] # start with an empty list
     for group in whitelist:
         sql_whitelist_group = ("SELECT groupid from groups where groups.name = \'%s\';") % group
-        whitelist_groups.append(query_db(sql_whitelist_group,cur)[0])
+        whitelist_groups.append(query_db(sql_whitelist_group,cursor)[0])
         log.debug(sql_whitelist_group)
 
    # get list of unmonitored hosts
     sql_unmonitored = """ SELECT hosts.hostid,hosts.host FROM hosts WHERE hosts.status=1; """
     check_hostlist = []
-    unmonitored_hosts = query_db(sql_unmonitored,cur)
+    unmonitored_hosts = query_db(sql_unmonitored,cursor)
     for host in unmonitored_hosts:
         is_whitelisted = 0
         # Check if host is in whitelisted groups, if not, add it to the list
@@ -111,7 +112,7 @@ def pull_data(cur,whitelist):
         # Check unmonitored hosts !-> whitelist
         check_groups = "SELECT groupid from hosts_groups where hostid=\'%s\';" % host[0]
         log.debug(check_groups)
-        groups = query_db(check_groups,cur)
+        groups = query_db(check_groups,cursor)
         for group in groups:
             if group in whitelist_groups:
                 is_whitelisted = 1
@@ -122,14 +123,16 @@ def pull_data(cur,whitelist):
     return check_hostlist
 
 
-def zabbix_push(host):
+def zabbix_push(host,cursor):
     # Having found a host that is unmonitored, but not in a whitelisted group,
     # Push that into zabbix for it to deal with.
-    log.warn("Host %s has escaped monitoring, without appropriate group membership" % host[1])
+    log.debug("Host %s has escaped monitoring, without appropriate group membership" % host[1])
     # Now turn monitoring on via mysql connection, in zabbix, for this host.
     # FIXME  move this functionality to zabbix api
-    Enable_Monitoring = "UPDATE hosts SET hosts.status=1 where hosts.hostid=\'%s\';" % host[0]
-    print Enable_Monitoring
+    Enable_Monitoring = "UPDATE hosts SET status=0 where hosts.hostid=\'%s\';" % host[0]
+    query_db(Enable_Monitoring,cursor)
+    log.debug(Enable_Monitoring)
+
 
 if __name__ == '__main__':
     logging.basicConfig(level = logging.WARN,
@@ -142,7 +145,8 @@ if __name__ == '__main__':
     log = logging.getLogger('check_unmonitored')
 
     _config = get_config()
-    unmonitored_hosts_no_whitelist = pull_data(get_db(_config),_config['whitelist'])
+    cursor = get_db(_config)
+    unmonitored_hosts_no_whitelist = pull_data(cursor,_config['whitelist'])
     log.debug(unmonitored_hosts_no_whitelist)
     for host in unmonitored_hosts_no_whitelist:
-        zabbix_push(host)
+        zabbix_push(host,cursor)
