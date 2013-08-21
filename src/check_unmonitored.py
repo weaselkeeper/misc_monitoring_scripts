@@ -86,7 +86,7 @@ def query_db(sql,cur):
     # make the query, return the result
     try:
         cur.execute(sql)
-        log.warn(sql)
+        log.debug(sql)
         query_result = cur.fetchall()
     except:
         log.warn("something went wrong with the database query")
