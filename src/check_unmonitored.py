@@ -29,7 +29,7 @@ import sys
 import tempfile
 import MySQLdb as db
 
-CONFIGFILE = '/tmp/config'
+CONFIGFILE = '/etc/zabbix/check_unmonitored.conf'
 
 def get_config():
     """ if a config file exists, read and parse it.
@@ -43,7 +43,7 @@ def get_config():
     DBNAME = name of database
     DBUSER = username
     DBPASS = password
-
+    WHITELIST = comma seperated list of whitelist groups
     """
 
     parser = SafeConfigParser()
@@ -75,36 +75,40 @@ def get_db(configuration):
                          user = configuration['user'],
                          passwd = configuration['pass']
             )
-        cur = con.cursor()
     except:
             log.warn("cannot connect to database")
             sys.exit(1)
-    return cur
+    return con
 
 
-def query_db(sql,cur):
+def query_db(sql,con):
     # make the query, return the result
+    # passing con and opening a cursor each time is not efficient
     try:
+        cur = con.cursor()
         cur.execute(sql)
         log.debug(sql)
         query_result = cur.fetchall()
     except:
         log.warn("something went wrong with the database query")
         sys.exit(1)
+        con.rollback()
+    con.commit()
+    cur.close()
     return query_result
 
 
-def pull_data(cursor,whitelist):
+def pull_data(con,whitelist):
     whitelist_groups = [] # start with an empty list
     for group in whitelist:
         sql_whitelist_group = ("SELECT groupid from groups where groups.name = \'%s\';") % group
-        whitelist_groups.append(query_db(sql_whitelist_group,cursor)[0])
+        whitelist_groups.append(query_db(sql_whitelist_group,con)[0])
         log.debug(sql_whitelist_group)
 
    # get list of unmonitored hosts
     sql_unmonitored = """ SELECT hosts.hostid,hosts.host FROM hosts WHERE hosts.status=1; """
     check_hostlist = []
-    unmonitored_hosts = query_db(sql_unmonitored,cursor)
+    unmonitored_hosts = query_db(sql_unmonitored,con)
     for host in unmonitored_hosts:
         is_whitelisted = 0
         # Check if host is in whitelisted groups, if not, add it to the list
@@ -112,7 +116,7 @@ def pull_data(cursor,whitelist):
         # Check unmonitored hosts !-> whitelist
         check_groups = "SELECT groupid from hosts_groups where hostid=\'%s\';" % host[0]
         log.debug(check_groups)
-        groups = query_db(check_groups,cursor)
+        groups = query_db(check_groups,con)
         for group in groups:
             if group in whitelist_groups:
                 is_whitelisted = 1
@@ -123,14 +127,14 @@ def pull_data(cursor,whitelist):
     return check_hostlist
 
 
-def zabbix_push(host,cursor):
+def zabbix_push(host,con):
     # Having found a host that is unmonitored, but not in a whitelisted group,
     # Push that into zabbix for it to deal with.
     log.debug("Host %s has escaped monitoring, without appropriate group membership" % host[1])
     # Now turn monitoring on via mysql connection, in zabbix, for this host.
     # FIXME  move this functionality to zabbix api
     Enable_Monitoring = "UPDATE hosts SET status=0 where hosts.hostid=\'%s\';" % host[0]
-    query_db(Enable_Monitoring,cursor)
+    query_db(Enable_Monitoring,con)
     log.debug(Enable_Monitoring)
 
 
@@ -145,8 +149,10 @@ if __name__ == '__main__':
     log = logging.getLogger('check_unmonitored')
 
     _config = get_config()
-    cursor = get_db(_config)
-    unmonitored_hosts_no_whitelist = pull_data(cursor,_config['whitelist'])
+    con = get_db(_config)
+    cur = con.cursor()
+    unmonitored_hosts_no_whitelist = pull_data(con,_config['whitelist'])
     log.debug(unmonitored_hosts_no_whitelist)
     for host in unmonitored_hosts_no_whitelist:
-        zabbix_push(host,cursor)
+        zabbix_push(host,con)
+
