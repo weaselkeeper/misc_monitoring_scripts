@@ -116,7 +116,7 @@ def pull_data(cur,whitelist):
         for group in groups:
             if group in whitelist_groups:
                 is_whitelisted = 1
-        if is_whitelisted:
+        if not is_whitelisted:
             check_hostlist.append(host)
     log.debug('whitelist group consists of %s ' % str(whitelist_groups))
     log.debug('unmonitored hosts not in whitelist %s ' %  str(check_hostlist))
