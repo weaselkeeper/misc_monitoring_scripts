@@ -29,7 +29,11 @@ import sys
 import tempfile
 import MySQLdb as db
 
-CONFIGFILE = '/etc/zabbix/check_unmonitored.conf'
+
+if os.environ.get('ZABBIX_CHECKS_CONFIG'):
+    CONFIGFILE = os.environ.get('ZABBIX_CHECKS_CONFIG')
+else:
+    CONFIGFILE = '/etc/zabbix/check_unmonitored.conf'
 
 def get_config():
     """ if a config file exists, read and parse it.
