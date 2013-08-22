@@ -1,5 +1,5 @@
 # Makefile is a confused mess.  Needs significant cleanup
-NAME = forgetmenot
+NAME = check_unmonitored
 VERSION=0.1
 RELEASE=0
 SHELL := /bin/bash
