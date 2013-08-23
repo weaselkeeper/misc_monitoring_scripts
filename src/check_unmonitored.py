@@ -21,6 +21,7 @@ author = 'Jim Richardson <weaselkeeper@gmail.com>'
 # Stock imports
 from ConfigParser import SafeConfigParser
 import logging
+import argparse
 
 # script specific imports.
 import time
@@ -34,6 +35,23 @@ if os.environ.get('ZABBIX_CHECKS_CONFIG'):
     CONFIGFILE = os.environ.get('ZABBIX_CHECKS_CONFIG')
 else:
     CONFIGFILE = '/etc/zabbix/check_unmonitored.conf'
+
+
+def get_options():
+    """ command-line options """
+    parser = argparse.ArgumentParser(description='Pass cli options to \
+        script')
+
+    parser.add_argument('-n', '--dryrun', action="store_true",
+                        default=False, help='Dry run will report what it \
+                        would do, but makes no changes to the DB' 
+
+    parser.add_argument('-d','--debug', action="store_true", default=False)
+
+    args = parser.parse_args()
+    args.usage = "check_unmonitored.py [options]"
+    return args
+
 
 def get_config():
     """ if a config file exists, read and parse it.
