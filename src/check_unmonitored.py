@@ -161,6 +161,8 @@ def zabbix_push(host,con):
 
 
 if __name__ == '__main__':
+    args = get_options()
+
     logging.basicConfig(level = logging.WARN,
                         formate='%(asctime)s %(levelname)s - %(message)s',
                         datefmt='%y.%m.%d %H:%M:%S'
@@ -169,6 +171,9 @@ if __name__ == '__main__':
     console.setLevel(logging.WARN)
     logging.getLogger('check_unmonitored').addHandler(console)
     log = logging.getLogger('check_unmonitored')
+    if args.debug:
+        log.setLevel(logging.DEBUG)
+
 
     _config = get_config()
     con = get_db(_config)
