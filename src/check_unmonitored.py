@@ -139,7 +139,6 @@ def pull_data(con,whitelist):
         # of bad hosts.
         # Check unmonitored hosts !-> whitelist
         check_groups = "SELECT groupid from hosts_groups where hostid=\'%s\';" % host[0]
-        log.debug(check_groups)
         groups = query_db(check_groups,con)
         for group in groups:
             if group in whitelist_groups:
