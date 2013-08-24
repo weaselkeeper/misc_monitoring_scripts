@@ -127,7 +127,6 @@ def pull_data(con,whitelist):
     for group in whitelist:
         sql_whitelist_group = ("SELECT groupid from groups where groups.name = \'%s\';") % group
         whitelist_groups.append(query_db(sql_whitelist_group,con)[0])
-        log.debug(sql_whitelist_group)
 
    # get list of unmonitored hosts
     sql_unmonitored = """ SELECT hosts.hostid,hosts.host FROM hosts WHERE hosts.status=1; """
