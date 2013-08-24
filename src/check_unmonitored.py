@@ -82,6 +82,7 @@ def get_config():
         configuration['db']     = parser.get('ZabbixDB', 'DBNAME')
         configuration['pass']   = parser.get('ZabbixDB', 'DBPASS')
         configuration['whitelist'] = parser.get('ZabbixDB', 'WHITELIST').split(',')
+        log.debug('config file parsed')
     except:
         log.warn('something wrong with the config file? ')
         sys.exit(1)
@@ -97,6 +98,7 @@ def get_db(configuration):
                          user = configuration['user'],
                          passwd = configuration['pass']
             )
+        log.debug('db connection made')
     except:
             log.warn("cannot connect to database")
             sys.exit(1)
