@@ -44,7 +44,7 @@ def get_options():
 
     parser.add_argument('-n', '--dryrun', action="store_true",
                         default=False, help='Dry run will report what it \
-                        would do, but makes no changes to the DB' 
+                        would do, but makes no changes to the DB')
 
     parser.add_argument('-d','--debug', action="store_true", default=False)
 
