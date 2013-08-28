@@ -20,6 +20,7 @@ Alert if machines are left too long in unmonitored state
 %install
 rm -rf %{buildroot}
 
+
 %{__mkdir_p} %{buildroot}%{_bindir}
 %{__mkdir_p} %{buildroot}%{_sysconfdir}/%{name}
 %{__mkdir_p} %{buildroot}%{_localstatedir}/log/%{name}
@@ -28,6 +29,7 @@ cp -r ./*.conf %{buildroot}%{_sysconfdir}/%{name}
 
 %files
 %{_bindir}/*.py
+%{_bindir}/*.py[co]
 %{_sysconfdir}/%{name}/*.conf
 
 %pre
