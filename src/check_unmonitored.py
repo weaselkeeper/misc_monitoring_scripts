@@ -48,6 +48,8 @@ def get_options():
 
     parser.add_argument('-d','--debug', action="store_true", default=False)
 
+    parser.add_argument('-c','--config', action='store')
+
     args = parser.parse_args()
     args.usage = "check_unmonitored.py [options]"
     return args
