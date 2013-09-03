@@ -1,6 +1,6 @@
 Name:           check_unmonitored
 Version:        0.1
-Release:        0
+Release:        1
 Summary:        Alert if machines are left too long in unmonitored state.
 License:        GPLv2
 URL:            https://github.com/weaselkeeper/misc_monitoring_scripts
@@ -20,6 +20,7 @@ Alert if machines are left too long in unmonitored state
 %install
 rm -rf %{buildroot}
 
+
 %{__mkdir_p} %{buildroot}%{_bindir}
 %{__mkdir_p} %{buildroot}%{_sysconfdir}/%{name}
 %{__mkdir_p} %{buildroot}%{_localstatedir}/log/%{name}
@@ -28,6 +29,7 @@ cp -r ./*.conf %{buildroot}%{_sysconfdir}/%{name}
 
 %files
 %{_bindir}/*.py
+%{_bindir}/*.py[co]
 %{_sysconfdir}/%{name}/*.conf
 
 %pre
@@ -38,5 +40,7 @@ cp -r ./*.conf %{buildroot}%{_sysconfdir}/%{name}
 rm -rf %{buildroot}
 
 %changelog
+* Wed Aug 28 2013 Jim Richardson <weaselkeeper@gmail.com> - 0.1-1
+- add debug flag
 * Thu Aug 15 2013 Jim Richardson <weaselkeeper@gmail.com> - 0.1
 - Initial RPM build structure added.
