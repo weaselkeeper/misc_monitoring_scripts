@@ -87,6 +87,7 @@ clean:
 	@/bin/rm -rf $(WORKDIR) building $(NAME)
 	@cd $(BASEDIR) && rm -rf BUILD_TEMP && rm -f AUTHORS.TXT $(NAME)-$(VERSION)*.tar.bz2
 	@find $(BASEDIR) -iname *.py[co] | xargs -i rm -f {}
+	@touch $(BASEDIR)/src/foo.pyo
 	@rm -rf noarch
 	@rm -f $(NAME)*rpm
 
