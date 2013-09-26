@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 __docstring__ ="""
-Very basic monitoring script for a small scala app. 
+Very basic monitoring script for a small scala app.
 
 
 
@@ -16,29 +16,42 @@ to "" lest you be inundated with a swarm of "all's well" messages.
 """
 import smtplib
 import sys
-import json,urllib
+import json
+import urllib
+import logging
+
+
+logging.basicConfig(level=logging.WARN,
+                    format='%(asctime)s %(levelname)s - %(message)s',
+                    datefmt='%y.%m.%d %H:%M:%S'
+                    )
+console = logging.StreamHandler(sys.stderr)
+console.setLevel(logging.WARN)
+logging.getLogger("webcheck").addHandler(console)
+log = logging.getLogger("webcheck")
 
 MAILTO = '<EMAIL-ADDRESS>'
 MAILFROM = 'monitor@somewhere.com'
-MONITOR_URL='http://localhost:8081/metrics'; 
+MONITOR_URL='http://localhost:8081/metrics';
     # Sample monitor url. Set
     # appropriately
 
-# Setting DEBUG will stop emails from being sent.  Prevents being inundated
+# Setting NOREPORT will stop emails from being sent.  Prevents being inundated
 # with annoying mails during test and dev
-# DEBUG enabled by default for now.
-DEBUG=1
+# NOREPORT enabled by default for now.
+# Can also be set at invocation with the nopreport option
+NOREPORT=1
 
 def mail_alerts(msg):
     server = smtplib.SMTP('localhost')
     server.set_debuglevel(1)
     try:
-        if DEBUG == 0:
+        if NOREPORT == 0:
             server.sendmail(MAILFROM, MAILTO, msg)
         else:
-            print "test Message %s" % msg
+            log.warn("test Message %s" % msg)
     except:
-        print 'failure, we should do something about this.'
+        log.warn('failure, we should do something about this.')
     server.quit()
 
 # Monitors.  Edit this to add new or change old.
@@ -64,7 +77,7 @@ def checks(webdata):
             print 'all\'s well with %s' % key
 
 
-def main():
+def run():
     try:
         data = urllib.urlopen(MONITOR_URL).read()
     except IOError:
@@ -75,7 +88,35 @@ def main():
     checks(webdata)
 
 
+def get_options():
+    """ command-line options """
+    parser = argparse.ArgumentParser(description='Pass cli options to \
+        script')
+
+    parser.add_argument('-n', '--noreport', action="store_true",
+                        default=False, help='run the check, but do not trigger\
+                         a report')
+
+    parser.add_argument('-d','--debug', action="store_true", default=False)
+
+    args = parser.parse_args()
+    args.usage = "clone_repo.py [options]"
+    return args
+
+
 
 if __name__ == '__main__':
-    main()
+
+    import argparse
+    args = get_options()
+
+    if args.debug:
+        log.setLevel(logging.DEBUG)
+
+    if args.noreport:
+        log.info(args)
+        log.warn('do not report')
+        NOREPORT = 1
+
+    run()
 
