@@ -1,6 +1,6 @@
-Name:           check_unmonitored
+Name:           misc_monitoring
 Version:        0.1
-Release:        1
+Release:        0
 Summary:        Alert if machines are left too long in unmonitored state.
 License:        GPLv2
 URL:            https://github.com/weaselkeeper/misc_monitoring_scripts
@@ -9,10 +9,36 @@ Source0:        %{name}-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
-Requires:       python
 
 %description
-Alert if machines are left too long in unmonitored state
+Small monitoring scripts for misc tasks.
+
+# Sub packages
+
+%package  check_unmonitored
+Summary:	Check zabbix for hosts in umonitored state
+Requires:	python
+BuildArch:      noarch
+
+%description check_unmonitored
+Check zabbix for hosts in umonitored state 
+
+%package webapp_health_mon
+Summary:	Monitors a web app via url gets with json results.
+Requires:	python
+BuildArch:	noarch
+
+%description webapp_health_mon
+Monitors a web app via url gets with json results.
+
+%package svncheck
+Summary:	Monitors an svn sync system we no longer use
+Requires:	python
+BuildArch:	noarch
+
+%description svncheck
+Monitors an svn sync system we no longer use.
+Left here for posterity.
 
 %prep
 %setup -q -n %{name}
@@ -27,10 +53,17 @@ rm -rf %{buildroot}
 cp -r ./*.py %{buildroot}%{_bindir}/
 cp -r ./*.conf %{buildroot}%{_sysconfdir}/%{name}
 
-%files
-%{_bindir}/*.py
-%{_bindir}/*.py[co]
+%files check_unmonitored
+%{_bindir}/check_unmonitored.py
+#%{_sysconfdir}/%{name}/*.conf
+
+%files webapp_health_mon
+%{_bindir}/webapp-monitor.py
+#%{_bindir}/*.py[co]
 %{_sysconfdir}/%{name}/*.conf
+
+%files svncheck
+%{_bindir}/svncheck.py
 
 %pre
 

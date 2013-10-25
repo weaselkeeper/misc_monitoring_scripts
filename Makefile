@@ -1,5 +1,5 @@
 # Makefile is a confused mess.  Needs significant cleanup
-NAME = check_unmonitored
+NAME = misc_monitoring
 VERSION=0.1
 RELEASE=0
 SHELL := /bin/bash
