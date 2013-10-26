@@ -1,5 +1,5 @@
 Name:           misc_monitoring
-Version:        0.1
+Version:        %(git describe | sed -e 's/-/_/g')
 Release:        0
 Summary:        Alert if machines are left too long in unmonitored state.
 License:        GPLv2
