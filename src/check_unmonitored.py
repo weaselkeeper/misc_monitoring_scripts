@@ -24,10 +24,8 @@ import logging
 import argparse
 
 # script specific imports.
-import time
 import os
 import sys
-import tempfile
 import MySQLdb as db
 
 
@@ -46,13 +44,13 @@ def get_options():
                         default=False, help='Dry run will report what it \
                         would do, but makes no changes to the DB')
 
-    parser.add_argument('-d','--debug', action="store_true", default=False)
+    parser.add_argument('-d', '--debug', action="store_true", default=False)
 
-    parser.add_argument('-c','--config', action='store')
+    parser.add_argument('-c', '--config', action='store')
 
-    args = parser.parse_args()
-    args.usage = "check_unmonitored.py [options]"
-    return args
+    _args = parser.parse_args()
+    _args.usage = "check_unmonitored.py [options]"
+    return _args
 
 
 def get_config():
@@ -94,73 +92,81 @@ def get_config():
 def get_db(configuration):
     """ Try connecting to relevant database on host, with user/pass
     Error out if something bad happens, return DB object if successful"""
+    log.debug('entering get_db()')
     try:
-        con = db.connect(host = configuration['server'],
+        _con = db.connect(host = configuration['server'],
                          db   = configuration['db'],
                          user = configuration['user'],
                          passwd = configuration['pass']
             )
         log.debug('db connection made')
     except:
-            log.warn("cannot connect to database")
-            sys.exit(1)
-    return con
+        log.warn("cannot connect to database")
+        log.debug('erroring out of get_db()')
+        sys.exit(1)
+    log.debug('leaving get_db()')
+    return _con
 
 
-def query_db(sql,con):
+def query_db(sql, _con):
     # make the query, return the result
     # passing con and opening a cursor each time is not efficient
+    log.debug('entering query_db()')
     try:
-        cur = con.cursor()
+        cur = _con.cursor()
         cur.execute(sql)
         log.debug(sql)
         query_result = cur.fetchall()
     except:
         log.warn("something went wrong with the database query")
         sys.exit(1)
-        con.rollback()
-    con.commit()
+        _con.rollback()
+    _con.commit()
     cur.close()
+    log.debug('leaving query_db()')
     return query_result
 
 
-def pull_data(con,whitelist):
+def pull_data(_con, whitelist):
+    lgo.debug('entering pull_data()')
     whitelist_groups = [] # start with an empty list
     for group in whitelist:
         sql_whitelist_group = ("SELECT groupid from groups where groups.name = \'%s\';") % group
-        whitelist_groups.append(query_db(sql_whitelist_group,con)[0])
+        whitelist_groups.append(query_db(sql_whitelist_group, con)[0])
 
    # get list of unmonitored hosts
-    sql_unmonitored = """ SELECT hosts.hostid,hosts.host FROM hosts WHERE hosts.status=1; """
+    sql_unmonitored = """ SELECT hosts.hostid, hosts.host FROM hosts WHERE hosts.status=1; """
     check_hostlist = []
-    unmonitored_hosts = query_db(sql_unmonitored,con)
-    for host in unmonitored_hosts:
+    unmonitored_hosts = query_db(sql_unmonitored, con)
+    for _host in unmonitored_hosts:
         is_whitelisted = 0
         # Check if host is in whitelisted groups, if not, add it to the list
         # of bad hosts.
         # Check unmonitored hosts !-> whitelist
-        check_groups = "SELECT groupid from hosts_groups where hostid=\'%s\';" % host[0]
-        groups = query_db(check_groups,con)
+        check_groups = "SELECT groupid from hosts_groups where hostid=\'%s\';" % _host[0]
+        groups = query_db(check_groups, _con)
         for group in groups:
             if group in whitelist_groups:
                 is_whitelisted = 1
         if not is_whitelisted:
-            check_hostlist.append(host)
+            check_hostlist.append(_host)
     log.debug('whitelist group consists of %s ' % str(whitelist_groups))
     log.debug('unmonitored hosts not in whitelist %s ' %  str(check_hostlist))
+    log.debug('leaving pull_data()')
     return check_hostlist
 
 
-def zabbix_push(host,con):
+def zabbix_push(_host, _con):
     # Having found a host that is unmonitored, but not in a whitelisted group,
     # Push that into zabbix for it to deal with.
-    log.debug("Host %s has escaped monitoring, without appropriate group membership" % host[1])
+    log.debug('entering zabbix_push')
+    log.debug("Host %s has escaped monitoring, without appropriate group membership" % _host[1])
     # Now turn monitoring on via mysql connection, in zabbix, for this host.
     # FIXME  move this functionality to zabbix api
-    Enable_Monitoring = "UPDATE hosts SET status=0 where hosts.hostid=\'%s\';" % host[0]
-    query_db(Enable_Monitoring,con)
+    Enable_Monitoring = "UPDATE hosts SET status=0 where hosts.hostid=\'%s\';" % _host[0]
+    query_db(Enable_Monitoring, _con)
     log.debug(Enable_Monitoring)
-
+    log.debug('leaving zabbix_push()')
 
 if __name__ == '__main__':
     args = get_options()
@@ -180,8 +186,8 @@ if __name__ == '__main__':
     _config = get_config()
     con = get_db(_config)
     cur = con.cursor()
-    unmonitored_hosts_no_whitelist = pull_data(con,_config['whitelist'])
+    unmonitored_hosts_no_whitelist = pull_data(con, _config['whitelist'])
     log.debug(unmonitored_hosts_no_whitelist)
     for host in unmonitored_hosts_no_whitelist:
-        zabbix_push(host,con)
+        zabbix_push(host, con)
 
