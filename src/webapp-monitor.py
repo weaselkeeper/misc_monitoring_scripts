@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 
-__docstring__ ="""
+__docstring__ = """
 Very basic monitoring script for a small scala app.
-
-
 
 To add more monitors, edit the "monitors" section, it should be pretty self
 explanatory.  But you may need to grab the metrics page to figure out what the
@@ -32,7 +30,7 @@ log = logging.getLogger("webcheck")
 
 MAILTO = '<EMAIL-ADDRESS>'
 MAILFROM = 'monitor@somewhere.com'
-MONITOR_URL='http://localhost:8081/metrics';
+MONITOR_URL = 'http://localhost:8081/metrics'
     # Sample monitor url. Set
     # appropriately
 
@@ -43,6 +41,7 @@ MONITOR_URL='http://localhost:8081/metrics';
 NOREPORT=1
 
 def mail_alerts(msg):
+    """ if to send, who to send to and how """
     server = smtplib.SMTP('localhost')
     server.set_debuglevel(1)
     try:
@@ -97,7 +96,7 @@ def get_options():
                         default=False, help='run the check, but do not trigger\
                          a report')
 
-    parser.add_argument('-d','--debug', action="store_true", default=False)
+    parser.add_argument('-d','--debug', action = "store_true", default = False)
 
     args = parser.parse_args()
     args.usage = "clone_repo.py [options]"
