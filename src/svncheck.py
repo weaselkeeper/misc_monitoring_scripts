@@ -46,11 +46,6 @@ def test_checkout(client, repo, local_test_dir):
         sys.exit()
 
 
-def test_commit(client, commit):
-    """ commit our test file, which contains a timestamp, and no more """
-    # file is located somewhere in temp, find it, touch it, and commit it.
-
-
 def show_info(client, local_testfile):
     try:
         entry = client.info(local_testfile)
