@@ -37,23 +37,24 @@ def get_options():
     return calling_options, calling_args
 
 
-def test_checkout(client, repo, local_test_dir):
+def test_checkout(client, _repo, _local_test_dir):
     """ checkout our test tree """
     try:
-        client.checkout(repo, local_test_dir)
-    except pysvn._pysvn.ClientError, e:
-        print e
+        client.checkout(_repo, _local_test_dir)
+    except pysvn._pysvn.ClientError, error:
+        print error
         sys.exit()
 
 
 def show_info(client, local_testfile):
+    """ shows the data"""
     try:
         entry = client.info(local_testfile)
         print 'Url:', entry.url
         #file_content = client.cat(local_testfile)
         #print file_content
-    except pysvn._pysvn.ClientError, e:
-        print e
+    except pysvn._pysvn.ClientError, error:
+        print error
         sys.exit()
 
 
