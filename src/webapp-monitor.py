@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-
-__docstring__ = """
+"""
 Very basic monitoring script for a small scala app.
 
 To add more monitors, edit the "monitors" section, it should be pretty self
@@ -38,7 +37,7 @@ MONITOR_URL = 'http://localhost:8081/metrics'
 # with annoying mails during test and dev
 # NOREPORT enabled by default for now.
 # Can also be set at invocation with the nopreport option
-NOREPORT=1
+NOREPORT = 1
 
 def mail_alerts(msg):
     """ if to send, who to send to and how """
@@ -56,6 +55,7 @@ def mail_alerts(msg):
 # Monitors.  Edit this to add new or change old.
 #
 def checks(webdata):
+    """ perform the relevant check """
     checks = {}
     alert_vals = {}
     checks['daemon_thread_count'] = webdata['jvm']['daemon_thread_count']
@@ -77,6 +77,7 @@ def checks(webdata):
 
 
 def run():
+    """ Start here """
     try:
         data = urllib.urlopen(MONITOR_URL).read()
     except IOError:
@@ -92,11 +93,11 @@ def get_options():
     parser = argparse.ArgumentParser(description='Pass cli options to \
         script')
 
-    parser.add_argument('-n', '--noreport', action="store_true",
-                        default=False, help='run the check, but do not trigger\
+    parser.add_argument('-n', '--noreport', action = "store_true",
+                        default=False, help = 'run the check, but do not trigger\
                          a report')
 
-    parser.add_argument('-d','--debug', action = "store_true", default = False)
+    parser.add_argument('-d', '--debug', action = "store_true", default = False)
 
     args = parser.parse_args()
     args.usage = "clone_repo.py [options]"
