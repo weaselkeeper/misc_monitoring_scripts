@@ -1,5 +1,5 @@
 #!/usr/bin/env    python
-
+""" Check that the svn repo sync is working.  """
 import pysvn
 import optparse
 import sys
