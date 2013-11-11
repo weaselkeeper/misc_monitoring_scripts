@@ -1,0 +1,26 @@
+### Commented entries have reasonable defaults.
+### Uncomment to edit them.
+# Source: <source package name; defaults to package name>
+Section: misc
+Priority: optional
+Homepage: https://github.com/weaselkeeper/misc_monitoring
+Standards-Version: 3.9.2
+
+Package: misc_monitoring
+Version: VERSION
+Maintainer: Jim Richardson <weaselkeeper@gmail.com>
+Depends: python
+Architecture: all
+Copyright: LICENSE
+# Changelog: <changelog file; defaults to a generic changelog>
+Readme: README.md
+Files: check_unmonitored.conf /etc/check_unmonitored
+ check_unmonitored.py /usr/bin
+ svncheck.py /usr/bin
+ webapp-monitor.py /usr/bin
+
+Description: A few misc monitoring scripts.
+ A few misc monitoring scripts
+ .
+
+
