@@ -8,9 +8,9 @@ state too long, we present forgetmentnot.
 
 The scope is simple, check zabbix for unmonitored hosts that don't belong to a
 whitelist of host hostgroups. (in our case, decommissioned, and spare_servers)
-Alerting if any unmonitored hosts not in the whitelist groups remain in
-unmonitored state for longer than a configurable amount (set to 24 hrs by
-default)
+When the script is run, simply re-enable any hosts that are not in the 
+whitelisted groups, and are unmonitored
+
 """
 author = 'Jim Richardson <weaselkeeper@gmail.com>'
 
