@@ -6,7 +6,7 @@ Priority: optional
 Homepage: https://github.com/weaselkeeper/misc_monitoring
 Standards-Version: 3.9.2
 
-Package: misc_monitoring
+Package: misc-monitoring
 Version: VERSION
 Maintainer: Jim Richardson <weaselkeeper@gmail.com>
 Depends: python
@@ -20,7 +20,7 @@ Files: check_unmonitored.conf /etc/check_unmonitored
  webapp-monitor.py /usr/bin
 
 Description: A few misc monitoring scripts.
- A few misc monitoring scripts
  .
+ A few misc monitoring scripts
 
-
+Usage: run the scripts for help
