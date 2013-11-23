@@ -37,19 +37,19 @@ def get_options():
     return calling_options, calling_args
 
 
-def test_checkout(client, _repo, _local_test_dir):
+def test_checkout(_client, _repo, _local_test_dir):
     """ checkout our test tree """
     try:
-        client.checkout(_repo, _local_test_dir)
+        _client.checkout(_repo, _local_test_dir)
     except pysvn._pysvn.ClientError, error:
         print error
         sys.exit()
 
 
-def show_info(client, local_testfile):
+def show_info(_client, _local_testfile):
     """ shows the data"""
     try:
-        entry = client.info(local_testfile)
+        entry = _client.info(_local_testfile)
         print 'Url:', entry.url
         #file_content = client.cat(local_testfile)
         #print file_content
@@ -58,10 +58,10 @@ def show_info(client, local_testfile):
         sys.exit()
 
 
-def cleanup(local_test_dir):
+def cleanup(_local_test_dir):
     """ remove the test dir, no need to have it cluttering things up """
     try:
-        shutil.rmtree(local_test_dir)
+        shutil.rmtree(_local_test_dir)
     except IOError:
         logging.getLogger(" An error occured trying to cleanup test dir ")
         sys.exit(1)
