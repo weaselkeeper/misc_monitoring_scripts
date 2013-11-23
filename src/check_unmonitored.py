@@ -26,8 +26,22 @@ import argparse
 # script specific imports.
 import os
 import sys
-import MySQLdb as db
 
+# Setup logging
+
+logging.basicConfig(level = logging.WARN,
+                    formate='%(asctime)s %(levelname)s - %(message)s',
+                    datefmt='%y.%m.%d %H:%M:%S'
+                    )
+console = logging.StreamHandler(sys.stderr)
+console.setLevel(logging.WARN)
+logging.getLogger('check_unmonitored').addHandler(console)
+log = logging.getLogger('check_unmonitored')
+
+try:
+    import MySQLdb as db
+except:
+    log.warn('Unable to load MySQLdb')
 
 if os.environ.get('ZABBIX_CHECKS_CONFIG'):
     CONFIGFILE = os.environ.get('ZABBIX_CHECKS_CONFIG')
@@ -128,7 +142,7 @@ def query_db(sql, _con):
 
 
 def pull_data(_con, whitelist):
-    lgo.debug('entering pull_data()')
+    log.debug('entering pull_data()')
     whitelist_groups = [] # start with an empty list
     for group in whitelist:
         sql_whitelist_group = ("SELECT groupid from groups where groups.name = \'%s\';") % group
@@ -170,15 +184,6 @@ def zabbix_push(_host, _con):
 
 if __name__ == '__main__':
     args = get_options()
-
-    logging.basicConfig(level = logging.WARN,
-                        formate='%(asctime)s %(levelname)s - %(message)s',
-                        datefmt='%y.%m.%d %H:%M:%S'
-                        )
-    console = logging.StreamHandler(sys.stderr)
-    console.setLevel(logging.WARN)
-    logging.getLogger('check_unmonitored').addHandler(console)
-    log = logging.getLogger('check_unmonitored')
     if args.debug:
         log.setLevel(logging.DEBUG)
 
