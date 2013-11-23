@@ -56,20 +56,20 @@ def mail_alerts(msg):
 #
 def checks(webdata):
     """ perform the relevant check """
-    checks = {}
+    _checks = {}
     alert_vals = {}
-    checks['daemon_thread_count'] = webdata['jvm']['daemon_thread_count']
+    _checks['daemon_thread_count'] = webdata['jvm']['daemon_thread_count']
     alert_vals['daemon_thread_count'] = 1
 
-    checks['p999'] = webdata['de.leibert.ExampleResource']['sayHello']['duration']['p999']
+    _checks['p999'] = webdata['de.leibert.ExampleResource']['sayHello']['duration']['p999']
     alert_vals['p999'] = 5
 
-    checks['percent_4xx_15m'] = webdata['org.eclipse.jetty.servlet.ServletContextHandler']['percent-4xx-15m']['value']
+    _checks['percent_4xx_15m'] = webdata['org.eclipse.jetty.servlet.ServletContextHandler']['percent-4xx-15m']['value']
     alert_vals['percent_4xx_15m'] = 0.4
 
 
-    for key in checks.keys():
-        if checks[key] > alert_vals[key]:
+    for key in _checks.keys():
+        if _checks[key] > alert_vals[key]:
             msg = "error condition with %s currently at %d" % (key, alert_vals[key])
             mail_alerts(msg)
         else:
@@ -99,9 +99,9 @@ def get_options():
 
     parser.add_argument('-d', '--debug', action = "store_true", default = False)
 
-    args = parser.parse_args()
-    args.usage = "clone_repo.py [options]"
-    return args
+    _args = parser.parse_args()
+    _args.usage = "clone_repo.py [options]"
+    return _args
 
 
 
