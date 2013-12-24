@@ -48,7 +48,7 @@ def mail_alerts(msg):
             server.sendmail(MAILFROM, MAILTO, msg)
         else:
             log.warn("test Message %s" % msg)
-    except:
+    except NameError:
         log.warn('failure, we should do something about this.')
     server.quit()
 
