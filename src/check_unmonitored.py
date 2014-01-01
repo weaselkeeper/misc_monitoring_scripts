@@ -11,15 +11,15 @@ whitelist of host hostgroups. (in our case, decommissioned, and spare_servers)
 When the script is run, simply re-enable any hosts that are not in the 
 whitelisted groups, and are unmonitored
 
-"""
-author = 'Jim Richardson <weaselkeeper@gmail.com>'
+author 'Jim Richardson <weaselkeeper@gmail.com>'
 
+"""
 
 
 # Imports
 
 # Stock imports
-from ConfigParser import SafeConfigParser
+from ConfigParser import SafeConfigParser, NoSectionError, NoOptionError
 import logging
 import argparse
 
@@ -40,7 +40,7 @@ log = logging.getLogger('check_unmonitored')
 
 try:
     import MySQLdb as db
-except:
+except ImportError:
     log.warn('Unable to load MySQLdb')
 
 if os.environ.get('ZABBIX_CHECKS_CONFIG'):
@@ -67,6 +67,8 @@ def get_options():
     return _args
 
 
+
+
 def get_config():
     """ if a config file exists, read and parse it.
     Override with the get_options function, and any relevant environment
@@ -81,6 +83,14 @@ def get_config():
     DBPASS = password
     WHITELIST = comma seperated list of whitelist groups
     """
+
+    def do_fail(err):
+        """ do something with a caught error """
+        log.debug('in get_config().do_fail(%s)' % err)
+        if args.debug:
+            log.debug(err)
+        else:
+            log.warn(err)
 
     parser = SafeConfigParser()
     configuration = {}
@@ -97,7 +107,10 @@ def get_config():
         configuration['pass']   = parser.get('ZabbixDB', 'DBPASS')
         configuration['whitelist'] = parser.get('ZabbixDB', 'WHITELIST').split(',')
         log.debug('config file parsed')
-    except:
+    except NoOptionError, e:
+        do_fail(e)
+    except NoSectionError, e:
+        do_fail(e)
         log.warn('something wrong with the config file? ')
         sys.exit(1)
     return configuration
@@ -171,8 +184,8 @@ def pull_data(_con, whitelist):
 
 
 def zabbix_push(_host, _con):
-    # Having found a host that is unmonitored, but not in a whitelisted group,
-    # Push that into zabbix for it to deal with.
+    """ Having found a host that is unmonitored, but not in a whitelisted group,
+     Push that into zabbix for it to deal with."""
     log.debug('entering zabbix_push')
     log.debug("Host %s has escaped monitoring, without appropriate group membership" % _host[1])
     # Now turn monitoring on via mysql connection, in zabbix, for this host.
