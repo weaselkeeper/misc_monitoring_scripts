@@ -13,8 +13,48 @@ PROJECTNAME = 'puppetfailures'
 import MySQLdb
 import tempfile
 import os
+import sys
 import subprocess
 import time
+
+from ConfigParser import SafeConfigParser
+import logging
+
+""" Setup logging """
+logging.basicConfig(level=logging.WARN,
+                    format='%(asctime)s %(levelname)s - %(message)s',
+                    datefmt='%y.%m.%d %H:%M:%S')
+
+# Setup logging to console.
+console = logging.StreamHandler(sys.stderr)
+console.setLevel(logging.WARN)
+logging.getLogger(PROJECTNAME).addHandler(console)
+log = logging.getLogger(PROJECTNAME)
+
+def get_config(args):
+    """ Now parse the config file.  Get any and all info from config file."""
+    parser = SafeConfigParser()
+    configuration = {}
+    configfile = os.path.join('/etc', PROJECTNAME, PROJECTNAME + '.conf')
+    if args.config:
+        config = args.config
+    else:
+        if os.path.isfile(configfile):
+            config = configfile
+        else:
+            log.warn('No config file found at %s' % configfile)
+            sys.exit(1)
+
+    parser.read(config)
+
+    try:
+        configuration['SOMEOPTION'] = args.SOMEOPTION
+    except:
+        configuration['SOMEOPTION'] = parser.get('CONFIGSECTION', 'SOMEOPTION')
+
+    log.warn('Doing things with %s' % configuration['SOMEOPTION'])
+    return configuration
+
 
 # create a tempfile using tempfile module, stuff the data into that, and then
 # we use zabbix_sender to push items into zabbix. one big push please, we have
