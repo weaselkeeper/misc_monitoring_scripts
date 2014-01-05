@@ -20,7 +20,7 @@ import time
 from ConfigParser import SafeConfigParser
 import logging
 
-""" Setup logging """
+# Setup logging
 logging.basicConfig(level=logging.WARN,
                     format='%(asctime)s %(levelname)s - %(message)s',
                     datefmt='%y.%m.%d %H:%M:%S')
