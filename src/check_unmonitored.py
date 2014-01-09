@@ -136,8 +136,8 @@ def get_db(configuration):
 
 
 def query_db(sql, _con):
-    # make the query, return the result
-    # passing con and opening a cursor each time is not efficient
+    """  make the query, return the result
+     passing con and opening a cursor each time is not efficient """
     log.debug('entering query_db()')
     try:
         cur = _con.cursor()
