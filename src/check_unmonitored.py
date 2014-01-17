@@ -127,9 +127,9 @@ def get_db(configuration):
                          passwd = configuration['pass']
             )
         log.debug('db connection made')
-    except:
+    except db.Error as err:
         log.warn("cannot connect to database")
-        log.debug('erroring out of get_db()')
+        log.debug('erroring out of get_db() with Error %s' % err)
         sys.exit(1)
     log.debug('leaving get_db()')
     return _con
@@ -144,8 +144,9 @@ def query_db(sql, _con):
         cur.execute(sql)
         log.debug(sql)
         query_result = cur.fetchall()
-    except:
+    except cur.Error as err:
         log.warn("something went wrong with the database query")
+        log.debug('Query fail, error was %s' % err)
         sys.exit(1)
         _con.rollback()
     _con.commit()
@@ -155,6 +156,7 @@ def query_db(sql, _con):
 
 
 def pull_data(_con, whitelist):
+    """ Get the data from DB """
     log.debug('entering pull_data()')
     whitelist_groups = [] # start with an empty list
     for group in whitelist:
