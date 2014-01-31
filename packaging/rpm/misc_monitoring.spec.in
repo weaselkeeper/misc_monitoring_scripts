@@ -40,12 +40,22 @@ BuildArch:	noarch
 Monitors an svn sync system we no longer use.
 Left here for posterity.
 
+%package puppetfailures
+Summary:	Checks for failed puppet runs
+Requires:	python
+BuildArch:	noarch
+
+%description puppetfailures
+
+Queries puppet dashboard DB looking for hosts with failed puppet runs, then
+creates a tempfile using tempfile module, stuffs the data into that, and then
+we use zabbix_sender to push items into zabbix. one big push please.
+
 %prep
 %setup -q -n %{name}
 
 %install
 rm -rf %{buildroot}
-
 
 %{__mkdir_p} %{buildroot}%{_bindir}
 %{__mkdir_p} %{buildroot}%{_sysconfdir}/%{name}
@@ -64,6 +74,9 @@ cp -r ./*.conf %{buildroot}%{_sysconfdir}/%{name}
 
 %files svncheck
 %{_bindir}/svncheck.py
+
+%files puppetfailures
+%{_bindir}/puppetFailures.py
 
 %pre
 
