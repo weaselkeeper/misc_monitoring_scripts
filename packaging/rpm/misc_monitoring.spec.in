@@ -43,7 +43,7 @@ Left here for posterity.
 %package puppetfailures
 Summary:	Checks for failed puppet runs
 Requires:	python
-Requires:	python-mysqldb
+Requires:	MySQL-python
 BuildArch:	noarch
 
 %description puppetfailures
