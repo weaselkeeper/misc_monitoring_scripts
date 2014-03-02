@@ -118,5 +118,5 @@ if __name__ == '__main__':
         log.warn('do not report')
         NOREPORT = 1
 
-    run()
+    sys.exit(run())
 
