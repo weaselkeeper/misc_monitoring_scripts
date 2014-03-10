@@ -47,7 +47,7 @@ def mail_alerts(msg):
         if NOREPORT == 0:
             server.sendmail(MAILFROM, MAILTO, msg)
         else:
-            log.warn("test Message %s" % msg)
+            log.warn("test Message %s", msg)
     except NameError:
         log.warn('failure, we should do something about this.')
     server.quit()
@@ -93,11 +93,11 @@ def get_options():
     parser = argparse.ArgumentParser(description='Pass cli options to \
         script')
 
-    parser.add_argument('-n', '--noreport', action = "store_true",
-                        default=False, help = 'run the check, but do not trigger\
+    parser.add_argument('-n', '--noreport', action="store_true",
+                        default=False, help='run the check, but do not trigger\
                          a report')
 
-    parser.add_argument('-d', '--debug', action = "store_true", default = False)
+    parser.add_argument('-d', '--debug', action="store_true", default=False)
 
     _args = parser.parse_args()
     _args.usage = "clone_repo.py [options]"
