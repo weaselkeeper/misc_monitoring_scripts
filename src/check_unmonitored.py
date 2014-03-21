@@ -102,9 +102,9 @@ def get_config():
     parser.read(config)
     try:
         configuration['server'] = parser.get('ZabbixDB', 'DBHOST')
-        configuration['user']   = parser.get('ZabbixDB', 'DBUSER')
-        configuration['db']     = parser.get('ZabbixDB', 'DBNAME')
-        configuration['pass']   = parser.get('ZabbixDB', 'DBPASS')
+        configuration['user'] = parser.get('ZabbixDB', 'DBUSER')
+        configuration['db'] = parser.get('ZabbixDB', 'DBNAME')
+        configuration['pass'] = parser.get('ZabbixDB', 'DBPASS')
         configuration['whitelist'] = parser.get('ZabbixDB', 'WHITELIST').split(',')
         log.debug('config file parsed')
     except NoOptionError, e:
