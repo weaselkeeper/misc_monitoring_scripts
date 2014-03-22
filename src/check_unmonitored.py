@@ -8,7 +8,7 @@ state too long, we present forgetmentnot.
 
 The scope is simple, check zabbix for unmonitored hosts that don't belong to a
 whitelist of host hostgroups. (in our case, decommissioned, and spare_servers)
-When the script is run, simply re-enable any hosts that are not in the 
+When the script is run, simply re-enable any hosts that are not in the
 whitelisted groups, and are unmonitored
 
 author 'Jim Richardson <weaselkeeper@gmail.com>'
@@ -29,7 +29,7 @@ import sys
 
 # Setup logging
 
-logging.basicConfig(level = logging.WARN,
+logging.basicConfig(level=logging.WARN,
                     formate='%(asctime)s %(levelname)s - %(message)s',
                     datefmt='%y.%m.%d %H:%M:%S'
                     )
@@ -65,8 +65,6 @@ def get_options():
     _args = parser.parse_args()
     _args.usage = "check_unmonitored.py [options]"
     return _args
-
-
 
 
 def get_config():
@@ -105,7 +103,8 @@ def get_config():
         configuration['user'] = parser.get('ZabbixDB', 'DBUSER')
         configuration['db'] = parser.get('ZabbixDB', 'DBNAME')
         configuration['pass'] = parser.get('ZabbixDB', 'DBPASS')
-        configuration['whitelist'] = parser.get('ZabbixDB', 'WHITELIST').split(',')
+        configuration['whitelist'] = parser.get('ZabbixDB',
+                                                'WHITELIST').split(',')
         log.debug('config file parsed')
     except NoOptionError, e:
         do_fail(e)
@@ -121,11 +120,11 @@ def get_db(configuration):
     Error out if something bad happens, return DB object if successful"""
     log.debug('entering get_db()')
     try:
-        _con = db.connect(host = configuration['server'],
-                         db   = configuration['db'],
-                         user = configuration['user'],
-                         passwd = configuration['pass']
-            )
+        _con = db.connect(host=configuration['server'],
+                          db=configuration['db'],
+                          user=configuration['user'],
+                          passwd=configuration['pass']
+                          )
         log.debug('db connection made')
     except db.Error as err:
         log.warn("cannot connect to database")
@@ -158,7 +157,7 @@ def query_db(sql, _con):
 def pull_data(_con, whitelist):
     """ Get the data from DB """
     log.debug('entering pull_data()')
-    whitelist_groups = [] # start with an empty list
+    whitelist_groups = []  # start with an empty list
     for group in whitelist:
         sql_whitelist_group = ("SELECT groupid from groups where groups.name = \'%s\';") % group
         whitelist_groups.append(query_db(sql_whitelist_group, con)[0])
@@ -180,14 +179,14 @@ def pull_data(_con, whitelist):
         if not is_whitelisted:
             check_hostlist.append(_host)
     log.debug('whitelist group consists of %s ' % str(whitelist_groups))
-    log.debug('unmonitored hosts not in whitelist %s ' %  str(check_hostlist))
+    log.debug('unmonitored hosts not in whitelist %s ' % str(check_hostlist))
     log.debug('leaving pull_data()')
     return check_hostlist
 
 
 def zabbix_push(_host, _con):
-    """ Having found a host that is unmonitored, but not in a whitelisted group,
-     Push that into zabbix for it to deal with."""
+    """ Having found a host that is unmonitored, but not in a whitelisted
+    group, Push that into zabbix for it to deal with."""
     log.debug('entering zabbix_push')
     log.debug("Host %s has escaped monitoring, without appropriate group membership" % _host[1])
     # Now turn monitoring on via mysql connection, in zabbix, for this host.
@@ -202,7 +201,6 @@ if __name__ == '__main__':
     if args.debug:
         log.setLevel(logging.DEBUG)
 
-
     _config = get_config()
     con = get_db(_config)
     cur = con.cursor()
@@ -210,4 +208,3 @@ if __name__ == '__main__':
     log.debug(unmonitored_hosts_no_whitelist)
     for host in unmonitored_hosts_no_whitelist:
         zabbix_push(host, con)
-
