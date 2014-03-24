@@ -31,6 +31,7 @@ console.setLevel(logging.WARN)
 logging.getLogger(PROJECTNAME).addHandler(console)
 log = logging.getLogger(PROJECTNAME)
 
+
 def get_config(args):
     """ Now parse the config file.  Get any and all info from config file."""
     parser = SafeConfigParser()
@@ -42,7 +43,7 @@ def get_config(args):
         if os.path.isfile(configfile):
             config = configfile
         else:
-            log.warn('No config file found at %s' % configfile)
+            log.warn('No config file found at %s', configfile)
             sys.exit(1)
 
     parser.read(config)
@@ -52,7 +53,7 @@ def get_config(args):
     except:
         configuration['SOMEOPTION'] = parser.get('CONFIGSECTION', 'SOMEOPTION')
 
-    log.warn('Doing things with %s' % configuration['SOMEOPTION'])
+    log.warn('Doing things with %s', configuration['SOMEOPTION'])
     return configuration
 
 
