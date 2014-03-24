@@ -84,7 +84,7 @@ def get_config():
 
     def do_fail(err):
         """ do something with a caught error """
-        log.debug('in get_config().do_fail(%s)' % err)
+        log.debug('in get_config().do_fail(%s)', err)
         if args.debug:
             log.debug(err)
         else:
@@ -95,7 +95,7 @@ def get_config():
     if os.path.isfile(CONFIGFILE):
         config = CONFIGFILE
     else:
-        log.warn('No config file found at %s Aborting' % CONFIGFILE)
+        log.warn('No config file found at %s Aborting', CONFIGFILE)
         sys.exit(1)
     parser.read(config)
     try:
@@ -128,7 +128,7 @@ def get_db(configuration):
         log.debug('db connection made')
     except db.Error as err:
         log.warn("cannot connect to database")
-        log.debug('erroring out of get_db() with Error %s' % err)
+        log.debug('erroring out of get_db() with Error %s', err)
         sys.exit(1)
     log.debug('leaving get_db()')
     return _con
@@ -145,7 +145,7 @@ def query_db(sql, _con):
         query_result = cur.fetchall()
     except cur.Error as err:
         log.warn("something went wrong with the database query")
-        log.debug('Query fail, error was %s' % err)
+        log.debug('Query fail, error was %s', err)
         sys.exit(1)
         _con.rollback()
     _con.commit()
@@ -178,8 +178,8 @@ def pull_data(_con, whitelist):
                 is_whitelisted = 1
         if not is_whitelisted:
             check_hostlist.append(_host)
-    log.debug('whitelist group consists of %s ' % str(whitelist_groups))
-    log.debug('unmonitored hosts not in whitelist %s ' % str(check_hostlist))
+    log.debug('whitelist group consists of %s ', str(whitelist_groups))
+    log.debug('unmonitored hosts not in whitelist %s ', str(check_hostlist))
     log.debug('leaving pull_data()')
     return check_hostlist
 
@@ -188,10 +188,10 @@ def zabbix_push(_host, _con):
     """ Having found a host that is unmonitored, but not in a whitelisted
     group, Push that into zabbix for it to deal with."""
     log.debug('entering zabbix_push')
-    log.debug("Host %s has escaped monitoring, without appropriate group membership" % _host[1])
+    log.debug("Host %s has escaped monitoring, without appropriate group membership", _host[1])
     # Now turn monitoring on via mysql connection, in zabbix, for this host.
     # FIXME  move this functionality to zabbix api
-    Enable_Monitoring = "UPDATE hosts SET status=0 where hosts.hostid=\'%s\';" % _host[0]
+    Enable_Monitoring = "UPDATE hosts SET status=0 where hosts.hostid=\'%s\';", _host[0]
     query_db(Enable_Monitoring, _con)
     log.debug(Enable_Monitoring)
     log.debug('leaving zabbix_push()')
