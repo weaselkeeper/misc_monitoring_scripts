@@ -139,17 +139,17 @@ def query_db(sql, _con):
      passing con and opening a cursor each time is not efficient """
     log.debug('entering query_db()')
     try:
-        cur = _con.cursor()
-        cur.execute(sql)
+        _cur = _con.cursor()
+        _cur.execute(sql)
         log.debug(sql)
-        query_result = cur.fetchall()
-    except cur.Error as err:
+        query_result = _cur.fetchall()
+    except _cur.Error as err:
         log.warn("something went wrong with the database query")
         log.debug('Query fail, error was %s', err)
         sys.exit(1)
         _con.rollback()
     _con.commit()
-    cur.close()
+    _cur.close()
     log.debug('leaving query_db()')
     return query_result
 
