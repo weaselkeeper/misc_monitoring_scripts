@@ -220,7 +220,7 @@ def zabbix_push(_host, _con):
     log.debug('entering zabbix_push')
     log.debug("Host %s has escaped monitoring, without appropriate group membership", _host[1])
     # Now turn monitoring on via mysql connection, in zabbix, for this host.
-    # FIXME  move this functionality to zabbix api
+    # Eventually, move this functionality to zabbix api
     Enable_Monitoring = "UPDATE hosts SET status=0 where hosts.hostid=\'%s\';", _host[0]
     query_db(Enable_Monitoring, _con)
     log.debug(Enable_Monitoring)
