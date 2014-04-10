@@ -69,7 +69,7 @@ cp -r ./*.conf %{buildroot}%{_sysconfdir}/%{name}
 #%{_sysconfdir}/%{name}/*.conf
 
 %files webapp_health_mon
-%{_bindir}/webapp-monitor.py
+%{_bindir}/webapp_monitor.py
 #%{_bindir}/*.py[co]
 %{_sysconfdir}/%{name}/*.conf
 

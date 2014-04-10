@@ -17,7 +17,7 @@ Readme: README.md
 Files: check_unmonitored.conf /etc/check_unmonitored
  check_unmonitored.py /usr/bin
  svncheck.py /usr/bin
- webapp-monitor.py /usr/bin
+ webapp_monitor.py /usr/bin
  puppetFailures.py /usr/bin
 
 Description: A few misc monitoring scripts.
