@@ -230,6 +230,8 @@ if __name__ == '__main__':
     args = get_options()
     if args.debug:
         log.setLevel(logging.DEBUG)
+    else:
+	log.setLevel(logging.WARN)
 
     _config = get_config()
     con = get_db(_config)
