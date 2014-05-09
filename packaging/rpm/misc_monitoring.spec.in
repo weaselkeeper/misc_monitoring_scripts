@@ -47,10 +47,17 @@ Requires:	MySQL-python
 BuildArch:	noarch
 
 %description puppetfailures
-
 Queries puppet dashboard DB looking for hosts with failed puppet runs, then
 creates a tempfile using tempfile module, stuffs the data into that, and then
 we use zabbix_sender to push items into zabbix. one big push please.
+
+%package cerberus
+Summary:	Notifications via pushover api
+Requires:	python
+BuildArch:	noarch
+
+%description cerberus
+Send notifications via pushover api
 
 %prep
 %setup -q -n %{name}
@@ -78,6 +85,10 @@ cp -r ./*.conf %{buildroot}%{_sysconfdir}/%{name}
 
 %files puppetfailures
 %{_bindir}/puppetFailures.py
+
+%files cerberus
+%{_bindir}/cerberus.py
+%{_sysconfdir}/%{name}/*.conf
 
 %pre
 

@@ -19,6 +19,8 @@ Files: check_unmonitored.conf /etc/check_unmonitored
  svncheck.py /usr/bin
  webapp_monitor.py /usr/bin
  puppetFailures.py /usr/bin
+ cerberus.conf /etc/cerberus
+ cerberus.py /usr/bin
 
 Description: A few misc monitoring scripts.
  .
