@@ -58,20 +58,27 @@ console.setLevel(logging.WARN)
 logging.getLogger(PROJECTNAME).addHandler(console)
 log = logging.getLogger(PROJECTNAME)
 
+class cerberus(object):
+    """ Instantiates a cerberus object,us it to send notifications """
+    log.debug('In class Cerberus')
 
-def run(_args):
-    """ Do, whatever it is, we do. """
-    # parse config
-    conn = httplib.HTTPSConnection('api.pushover.net:443')
-    conn.request("POST", "/1/messages.json",
-        urllib.urlencode({
-            "token": _args.token,
-            "user": _args.user,
-            "message": "bark! Bark! BARK!!!"
-        }), {"Content-type": "application/x-www-form-urlencoded"})
-    conn.getresponse()
-    log.debug((_args))
-    return
+
+    def __init__(self):
+        host, port = 'api.pushover.net', 443
+
+    def run(self, _args):
+        """ Do, whatever it is, we do. """
+        # parse config
+        conn = httplib.HTTPSConnection('api.pushover.net:443')
+        conn.request("POST", "/1/messages.json",
+            urllib.urlencode({
+                "token": _args.token,
+                "user": _args.user,
+                "message": "bark! Bark! BARK!!!"
+            }), {"Content-type": "application/x-www-form-urlencoded"})
+        conn.getresponse()
+        log.debug((_args))
+        return
 
 
 def get_options():
@@ -111,4 +118,5 @@ if __name__ == "__main__":
         log.setLevel(logging.WARN)
 
         # and now we can do, whatever it is, we do.
-    sys.exit(run(args))
+    barkingDog = cerberus()
+    barkingDog.run(args)
