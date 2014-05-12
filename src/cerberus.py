@@ -74,7 +74,7 @@ class cerberus(object):
             urllib.urlencode({
                 "token": _args.token,
                 "user": _args.user,
-                "message": "bark! Bark! BARK!!!"
+                "message": _args.msg
             }), {"Content-type": "application/x-www-form-urlencoded"})
         conn.getresponse()
         log.debug((_args))
@@ -101,6 +101,8 @@ def get_options():
                         help='user key')
     parser.add_argument('-t', '--token', action='store', default=None,
                         help='application token')
+    parser.add_argument('-m', '--msg', action='store', default='Alert!',
+                        help='Text of message')
 
     _args = parser.parse_args()
     _args.usage = PROJECTNAME + ".py [options]"
