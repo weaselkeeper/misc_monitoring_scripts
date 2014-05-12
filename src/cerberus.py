@@ -142,5 +142,5 @@ if __name__ == "__main__":
 
         # and now we can do, whatever it is, we do.
     barkingDog = cerberus()
-    barkingDog.message = 'Alert!'; # Default message
+    barkingDog.message = args.msg
     barkingDog.run(args)
