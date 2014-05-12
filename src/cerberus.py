@@ -74,11 +74,32 @@ class cerberus(object):
             urllib.urlencode({
                 "token": _args.token,
                 "user": _args.user,
-                "message": _args.msg
+                "message": self.message
             }), {"Content-type": "application/x-www-form-urlencoded"})
         conn.getresponse()
         log.debug((_args))
         return
+
+
+def get_config(args):
+    """ Now parse the config file.  Get any and all info from config file."""
+    log.debug('Now in get_config')
+    parser = ConfigParser.SafeConfigParser()
+    configuration = {}
+    configfile = os.path.join('/etc', PROJECTNAME, PROJECTNAME + '.conf')
+    if args.config:
+        _config = args.config
+    else:
+        if os.path.isfile(configfile):
+            _config = configfile
+        else:
+            log.warn('No config file found at %s', configfile)
+            sys.exit(1)
+
+    parser.read(_config)
+
+    log.debug('leaving get_config')
+    return configuration
 
 
 def get_options():
@@ -121,4 +142,5 @@ if __name__ == "__main__":
 
         # and now we can do, whatever it is, we do.
     barkingDog = cerberus()
+    barkingDog.message = 'Alert!'; # Default message
     barkingDog.run(args)
