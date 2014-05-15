@@ -64,20 +64,20 @@ class cerberus(object):
 
 
     def __init__(self):
-        host, port = 'api.pushover.net', 443
+        self.host, self.port = 'api.pushover.net', 443
 
-    def run(self, _args):
+    def run(self):
         """ Do, whatever it is, we do. """
         # parse config
-        conn = httplib.HTTPSConnection('api.pushover.net:443')
+        conn = httplib.HTTPSConnection(self.host, self.port)
         conn.request("POST", "/1/messages.json",
             urllib.urlencode({
-                "token": _args.token,
-                "user": _args.user,
+                "token": self.token,
+                "user": self.key,
                 "message": self.message
             }), {"Content-type": "application/x-www-form-urlencoded"})
         conn.getresponse()
-        log.debug((_args))
+        log.debug('leaving run in cerberus class')
         return
 
 
@@ -143,4 +143,6 @@ if __name__ == "__main__":
         # and now we can do, whatever it is, we do.
     barkingDog = cerberus()
     barkingDog.message = args.msg
-    barkingDog.run(args)
+    barkingDog.token = args.token
+    barkingDog.key = args.user
+    barkingDog.run()
