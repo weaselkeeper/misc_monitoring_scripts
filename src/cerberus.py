@@ -81,14 +81,14 @@ class cerberus(object):
         return
 
 
-def get_config(args):
+def get_config(_args):
     """ Now parse the config file.  Get any and all info from config file."""
     log.debug('Now in get_config')
     parser = ConfigParser.SafeConfigParser()
     configuration = {}
     configfile = os.path.join('/etc', PROJECTNAME, PROJECTNAME + '.conf')
-    if args.config:
-        _config = args.config
+    if _args.config:
+        _config = _args.config
     else:
         if os.path.isfile(configfile):
             _config = configfile
