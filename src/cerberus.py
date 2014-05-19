@@ -74,7 +74,8 @@ class cerberus(object):
             urllib.urlencode({
                 "token": self.token,
                 "user": self.key,
-                "message": self.message
+                "message": self.message,
+                "priority": self.priority
             }), {"Content-type": "application/x-www-form-urlencoded"})
         conn.getresponse()
         log.debug('leaving run in cerberus class')
@@ -124,6 +125,8 @@ def get_options():
                         help='application token')
     parser.add_argument('-m', '--msg', action='store', default='Alert!',
                         help='Text of message')
+    parser.add_argument('-p', '--pri', action='store_true',
+                        help='Set high Priority')
 
     _args = parser.parse_args()
     _args.usage = PROJECTNAME + ".py [options]"
@@ -145,4 +148,8 @@ if __name__ == "__main__":
     barkingDog.message = args.msg
     barkingDog.token = args.token
     barkingDog.key = args.user
+    if args.pri:
+        barkingDog.priority = 1
+    else:
+        barkingDog.priority = -1
     barkingDog.run()
