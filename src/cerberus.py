@@ -151,5 +151,5 @@ if __name__ == "__main__":
     if args.pri:
         barkingDog.priority = 1
     else:
-        barkingDog.priority = -1
+        barkingDog.priority = 0
     barkingDog.run()
