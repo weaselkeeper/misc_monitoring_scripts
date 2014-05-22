@@ -140,9 +140,6 @@ if __name__ == "__main__":
 
         # and now we can do, whatever it is, we do.
     barkingDog = cerberus()
-    barkingDog.message = args.msg
-    barkingDog.token = args.token
-    barkingDog.key = args.user
     if args.pri:
         priority = 1
     else:
