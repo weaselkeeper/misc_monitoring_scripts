@@ -66,12 +66,12 @@ class cerberus(object):
     def __init__(self):
         self.host, self.port = 'api.pushover.net', 443
 
-    def run(self,opts):
+    def run(self,options):
         """ Do, whatever it is, we do. """
         # parse config
         conn = httplib.HTTPSConnection(self.host, self.port)
         conn.request("POST", "/1/messages.json",
-            urllib.urlencode(opts), {"Content-type": "application/x-www-form-urlencoded"})
+            urllib.urlencode(options), {"Content-type": "application/x-www-form-urlencoded"})
         conn.getresponse()
         log.debug('leaving run in cerberus class')
         return
