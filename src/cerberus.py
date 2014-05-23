@@ -105,10 +105,12 @@ def get_config(_args):
     if args.user:
         configuration['user'] = args.user
     if args.msg:
-        configuration['message'] = args.msg,
+        configuration['message'] = args.msg
     if args.pri:
         configuration['priority'] = args.pri
 
+
+    log.debug(configuration['message'])
     log.debug('leaving get_config')
     return configuration
 
