@@ -153,15 +153,8 @@ if __name__ == "__main__":
         log.setLevel(logging.WARN)
 
         # and now we can do, whatever it is, we do.
+
     barkingDog = cerberus()
-
-
-
-    if args.pri:
-        priority = 1
-    else:
-        priority = 0
-
 
     options=get_config(args)
 
