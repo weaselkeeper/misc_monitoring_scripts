@@ -94,9 +94,23 @@ def get_config(_args):
 
     parser.read(_config)
 
+    configuration = {}
+    configuration['token'] = parser.get('pushover', 'APP_TOKEN')
+    configuration['user'] = parser.get('pushover', 'USER')
+    configuration['message'] = parser.get('pushover', 'message')
+    configuration['priority'] = parser.get('pushover', 'PRI')
+
+    if args.token:
+        configuration['token'] = args.token
+    if args.user:
+        configuration['user'] = args.user
+    if args.msg:
+        configuration['message'] = args.msg,
+    if args.pri:
+        configuration['priority'] = args.pri
+
     log.debug('leaving get_config')
     return configuration
-
 
 def get_options():
     """ Parse the command line options"""
@@ -118,7 +132,7 @@ def get_options():
                         help='user key')
     parser.add_argument('-t', '--token', action='store', default=None,
                         help='application token')
-    parser.add_argument('-m', '--msg', action='store', default='Alert!',
+    parser.add_argument('-m', '--msg', action='store', default=None,
                         help='Text of message')
     parser.add_argument('-p', '--pri', action='store_true',
                         help='Set high Priority')
@@ -140,16 +154,16 @@ if __name__ == "__main__":
 
         # and now we can do, whatever it is, we do.
     barkingDog = cerberus()
+
+
+
     if args.pri:
         priority = 1
     else:
         priority = 0
-    opts = {
-        "token": args.token,
-        "user": args.user,
-        "message": args.msg,
-        "priority": priority
-         }
 
-    barkingDog.run(opts)
+
+    options=get_config(args)
+
+    barkingDog.run(options)
 
