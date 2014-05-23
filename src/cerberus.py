@@ -66,7 +66,7 @@ class cerberus(object):
     def __init__(self):
         self.host, self.port = 'api.pushover.net', 443
 
-    def run(self,options):
+    def run(self, options):
         """ Do, whatever it is, we do. """
         # parse config
         conn = httplib.HTTPSConnection(self.host, self.port)
