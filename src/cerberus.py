@@ -58,10 +58,10 @@ console.setLevel(logging.WARN)
 logging.getLogger(PROJECTNAME).addHandler(console)
 log = logging.getLogger(PROJECTNAME)
 
+
 class cerberus(object):
     """ Instantiates a cerberus object,us it to send notifications """
     log.debug('In class Cerberus')
-
 
     def __init__(self):
         self.host, self.port = 'api.pushover.net', 443
@@ -71,7 +71,8 @@ class cerberus(object):
         # parse config
         conn = httplib.HTTPSConnection(self.host, self.port)
         conn.request("POST", "/1/messages.json",
-            urllib.urlencode(options), {"Content-type": "application/x-www-form-urlencoded"})
+                     urllib.urlencode(options),
+                     {"Content-type": "application/x-www-form-urlencoded"})
         conn.getresponse()
         log.debug('leaving run in cerberus class')
         return
@@ -109,10 +110,10 @@ def get_config(_args):
     if args.pri:
         configuration['priority'] = args.pri
 
-
     log.debug(configuration['message'])
     log.debug('leaving get_config')
     return configuration
+
 
 def get_options():
     """ Parse the command line options"""
@@ -158,7 +159,6 @@ if __name__ == "__main__":
 
     barkingDog = cerberus()
 
-    options=get_config(args)
+    options = get_config(args)
 
     barkingDog.run(options)
-
