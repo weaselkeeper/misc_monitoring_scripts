@@ -100,7 +100,7 @@ def checks(webdata):
 
     for key in _checks.keys():
         if _checks[key] > alert_vals[key]:
-            msg = "error condition with %s currently at %d" % (key, alert_vals[key])
+            msg = "Error: %s currently at %d" % (key, alert_vals[key])
             mail_alerts(msg)
         else:
             print 'all\'s well with %s' % key
@@ -111,7 +111,7 @@ def run():
     try:
         data = urllib.urlopen(MONITOR_URL).read()
     except IOError:
-        msg = "something went wrong.  It's likely the server process you are trying to monitor is offline"
+        msg = "Error: Server unresponsive"
         mail_alerts(msg)
         sys.exit(1)
     webdata = json.loads(data)
