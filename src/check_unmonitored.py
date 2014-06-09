@@ -166,7 +166,7 @@ def get_db(configuration):
 
 def query_db(sql, _con):
     """  make the query, return the result
-     passing con and opening a cursor each time is not efficient """
+    passing con and opening a cursor each time is not efficient """
     log.debug('entering query_db()')
     try:
         _cur = _con.cursor()
@@ -231,7 +231,7 @@ if __name__ == '__main__':
     if args.debug:
         log.setLevel(logging.DEBUG)
     else:
-	log.setLevel(logging.WARN)
+        log.setLevel(logging.WARN)
 
     _config = get_config()
     con = get_db(_config)
