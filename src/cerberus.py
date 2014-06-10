@@ -77,6 +77,13 @@ class cerberus(object):
         log.debug('leaving run in cerberus class')
         return
 
+    def query(self, searchterm):
+        """ search for object """
+        # nothing here yet
+        # go away
+        # Query self for searchterm.
+        pass
+        return
 
 def get_config(_args):
     """ Now parse the config file.  Get any and all info from config file."""
