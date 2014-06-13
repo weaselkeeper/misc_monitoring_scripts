@@ -82,7 +82,6 @@ class cerberus(object):
         # nothing here yet
         # go away
         # Query self for searchterm.
-        pass
         return
 
 def get_config(_args):
