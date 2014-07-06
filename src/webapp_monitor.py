@@ -69,6 +69,7 @@ MONITOR_URL = 'http://localhost:8081/metrics'
 # Can also be set at invocation with the nopreport option
 NOREPORT = 1
 
+
 def mail_alerts(msg):
     """ if to send, who to send to and how """
     server = smtplib.SMTP('localhost')
@@ -81,6 +82,7 @@ def mail_alerts(msg):
     except NameError:
         log.warn('failure, we should do something about this.')
     server.quit()
+
 
 # Monitors.  Edit this to add new or change old.
 #
@@ -96,7 +98,6 @@ def checks(webdata):
 
     _checks['percent_4xx_15m'] = webdata['org.eclipse.jetty.servlet.ServletContextHandler']['percent-4xx-15m']['value']
     alert_vals['percent_4xx_15m'] = 0.4
-
 
     for key in _checks.keys():
         if _checks[key] > alert_vals[key]:
@@ -134,7 +135,6 @@ def get_options():
     return _args
 
 
-
 if __name__ == '__main__':
 
     import argparse
@@ -149,4 +149,3 @@ if __name__ == '__main__':
         NOREPORT = 1
 
     sys.exit(run())
-
