@@ -2,6 +2,7 @@ misc_monitoring_scripts
 =======================
 
 A few small monitoring related scripts.
+URL: https://github.com/weaselkeeper/misc_monitoring_scripts
 
 ==============================================================================
 
@@ -22,13 +23,12 @@ Not likely to make any changes to it.
 
 =============================================================================
 
-forgetmenot
+check_unmonitored
 ===========
 
 Description: Track systems in zabbix that are in unmonitored state.
 Author: Jim Richardson
 Email: weaselkeeper@gmail.com
-URL: https://github.com/weaselkeeper/forgetmenot
 Long-Description:
   It is sometimes neccessary to temporarily disable monitoring on a given host
 in Zabbix. But it's possible to forget to re-enable monitoring after the need
