@@ -6,6 +6,15 @@ URL: https://github.com/weaselkeeper/misc_monitoring_scripts
 
 ==============================================================================
 
+puppetFailures.py
+=====================
+
+Monitor a puppet dashboard instance for puppet failures, and stuff them into 
+a zabbix backend database for alerting/tracking
+
+
+==============================================================================
+
 svncheck
 ===========
 
