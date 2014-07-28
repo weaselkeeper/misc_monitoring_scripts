@@ -6,6 +6,15 @@ URL: https://github.com/weaselkeeper/misc_monitoring_scripts
 
 ==============================================================================
 
+puppetFailures.py
+=====================
+
+Monitor a puppet dashboard instance for puppet failures, and stuff them into 
+a zabbix backend database for alerting/tracking
+
+
+==============================================================================
+
 svncheck
 ===========
 
@@ -59,3 +68,13 @@ MONTITOR_URL, as well as configuring the checks in the checks() function.
 
 If one of the checks is triggered, an email will be sent via local mailserver
 to the specified MAILTO. 
+
+=============================================================================
+
+cereberus.py
+==================
+
+A tool used to send alerts via pushover <https://pushover.net>
+
+Unlike SMS and email, you know if the message was received or not.
+
