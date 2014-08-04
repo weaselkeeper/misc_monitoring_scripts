@@ -63,28 +63,58 @@ log = logging.getLogger(PROJECTNAME)
 
 
 def get_config(args):
-    """ Now parse the config file.  Get any and all info from config file."""
+    """ if a config file exists, read and parse it.
+    Override with the get_options function, and any relevant environment
+    variables.
+    Config file is in ConfigParser format
+
+    Configfile has the following sections
+    [puppetdb]
+    Z_SEND_BIN = Location of zabbix_sender on host
+    Z_SEND_OPTIONS = any extra options
+    Z_SEND_CONFIG  = location of zabbix_agentd.conf
+    DBHOST = DB hostname
+    DBPORT = port mysql is listening on
+    DBUSER = username
+    DBPASS = password
+    DBNAME = database name, probably puppet_dashboard
+    """
+
+    def do_fail(err):
+        """ do something with a caught error """
+        log.debug('in get_config().do_fail(%s)', err)
+        if args.debug:
+            log.debug(err)
+        else:
+            log.warn(err)
+
     parser = SafeConfigParser()
     configuration = {}
-    configfile = os.path.join('/etc', PROJECTNAME, PROJECTNAME + '.conf')
-    if args.config:
-        config = args.config
+    if os.path.isfile(CONFIGFILE):
+        config = CONFIGFILE
     else:
-        if os.path.isfile(configfile):
-            config = configfile
-        else:
-            log.warn('No config file found at %s', configfile)
-            sys.exit(1)
-
+        log.warn('No config file found at %s Aborting', CONFIGFILE)
+        sys.exit(1)
     parser.read(config)
-
     try:
-        configuration['SOMEOPTION'] = args.SOMEOPTION
-    except:
-        configuration['SOMEOPTION'] = parser.get('CONFIGSECTION', 'SOMEOPTION')
+        configuration['server'] = parser.get('puppetdb', 'DBHOST')
+        configuration['user'] = parser.get('puppetdb', 'DBUSER')
+        configuration['db'] = parser.get('puppetdb', 'DBNAME')
+        configuration['pass'] = parser.get('puppetdb', 'DBPASS')
+        configuration['port'] = parser.get('puppetdb', 'DBPORT')
+        configuration['zs_bin'] = parser.get('puppetdb', 'Z_SEND_BIN')
+        configuration['zs_options'] = parser.get('puppetdb', 'Z_SEND_OPTIONS')
+        configuration['zs_config'] = parser.get('puppetdb', 'Z_SEND_CONFIG')
 
-    log.warn('Doing things with %s', configuration['SOMEOPTION'])
+        log.debug('config file parsed')
+    except NoOptionError, e:
+        do_fail(e)
+    except NoSectionError, e:
+        do_fail(e)
+        log.warn('something wrong with the config file? ')
+        sys.exit(1)
     return configuration
+
 
 
 # create a tempfile using tempfile module, stuff the data into that, and then
