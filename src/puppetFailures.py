@@ -121,6 +121,8 @@ def get_config(args):
 # we use zabbix_sender to push items into zabbix. one big push please, we have
 # almost 1000 hosts in each main environment.
 
+
+## These are going away as soon as I finish the config stuff
 zabbix_send = '/usr/bin/zabbix_sender'
 zabbix_send_options = ''
 zabbix_send_config = '/etc/zabbix/zabbix_agentd.conf'
@@ -131,6 +133,10 @@ port = 3306
 user = 'user'
 passwd = 'passwd'
 database = 'puppet_dashboard'
+#### End temp config info
+
+
+
 time_now = int(time.time())
 # Returns UTC date
 
