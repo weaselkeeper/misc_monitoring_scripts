@@ -68,23 +68,29 @@ logging.getLogger(PROJECTNAME).addHandler(console)
 log = logging.getLogger(PROJECTNAME)
 
 
-def run(_args):
-    """ Main loop, called via .run method, or via __main__ section """
-    log.debug('In run()')
-    parsed_config = get_config(_args)
-    session = get_session(parsed_config)
+class webcheck(object):
+    """ Basic webcheck class """
+    def __init__(sel):
+        """ Initialize the object"""
+        log.debug('initialize')
 
-    # call webcheck here
-    results = webcheck(session)
-    log.debug('leaving run()')
-    return results
+    def run(self):
+        """ Main loop, called via .run method, or via __main__ section """
+        log.debug('In run()')
+        parsed_config = get_config(self.args)
+        session = get_session(parsed_config)
+
+        # call webcheck here
+        results = self.webcheck(session)
+        log.debug('leaving run()')
+        return results
 
 
-def webcheck(session):
-    """ Do the webcheck """
-    #Do something
-    result = session
-    return result
+    def webcheck(self, ession):
+        """ Do the webcheck """
+        #Do something
+        result = session
+        return result
 
 
 def get_session(_args):
