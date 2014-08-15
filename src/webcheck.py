@@ -70,7 +70,7 @@ log = logging.getLogger(PROJECTNAME)
 
 class webcheck(object):
     """ Basic webcheck class """
-    def __init__(sel):
+    def __init__(self):
         """ Initialize the object"""
         log.debug('initialize')
 
