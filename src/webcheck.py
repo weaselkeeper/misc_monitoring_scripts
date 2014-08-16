@@ -73,6 +73,7 @@ class webcheck(object):
     def __init__(self):
         """ Initialize the object"""
         log.debug('initialize')
+        self.args = get_args()
 
     def run(self):
         """ Main loop, called via .run method, or via __main__ section """
@@ -85,10 +86,9 @@ class webcheck(object):
         log.debug('leaving run()')
         return results
 
-
-    def webcheck(self, ession):
+    def webcheck(self, session):
         """ Do the webcheck """
-        #Do something
+        # Do something
         result = session
         return result
 
@@ -169,4 +169,5 @@ if __name__ == "__main__":
     # unless being called interactively, so import it here
     args = get_args()
     # and now we can do, whatever it is, we do.
-    sys.exit(run(args))
+    check = webcheck()
+    print check.args
