@@ -31,6 +31,16 @@ BuildArch:	noarch
 %description webapp_health_mon
 Monitors a web app via url gets with json results.
 
+
+%package webcheck
+Summary:	Monitors a web page for specific return value and/or data
+Requires:	python
+BuildArch:	noarch
+
+%description webcheck
+Monitors a web page for specific return value and/or data
+
+
 %package svncheck
 Summary:	Monitors an svn sync system we no longer use
 Requires:	python
@@ -39,6 +49,7 @@ BuildArch:	noarch
 %description svncheck
 Monitors an svn sync system we no longer use.
 Left here for posterity.
+
 
 %package puppetfailures
 Summary:	Checks for failed puppet runs
@@ -51,6 +62,7 @@ Queries puppet dashboard DB looking for hosts with failed puppet runs, then
 creates a tempfile using tempfile module, stuffs the data into that, and then
 we use zabbix_sender to push items into zabbix. one big push please.
 
+
 %package cerberus
 Summary:	Notifications via pushover api
 Requires:	python
@@ -58,6 +70,7 @@ BuildArch:	noarch
 
 %description cerberus
 Send notifications via pushover api
+
 
 %prep
 %setup -q -n %{name}
@@ -79,6 +92,12 @@ cp -r ./*.conf %{buildroot}%{_sysconfdir}/%{name}
 %{_bindir}/webapp_monitor.py
 #%{_bindir}/*.py[co]
 %{_sysconfdir}/%{name}/*.conf
+
+
+%files webcheck
+%{_bindir}/webcheck.py
+%{_sysconfdir}/%{name}/*.conf
+
 
 %files svncheck
 %{_bindir}/svncheck.py
