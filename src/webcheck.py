@@ -170,4 +170,5 @@ if __name__ == "__main__":
     args = get_args()
     # and now we can do, whatever it is, we do.
     check = webcheck()
-    print check.args
+    if args.debug:
+        print check.args
