@@ -73,16 +73,16 @@ class webcheck(object):
     def __init__(self):
         """ Initialize the object"""
         log.debug('initialize')
-        self.args = get_args()
+        self.args = get_options()
+        parsed_config = get_config(self.args)
+        self.session = get_session(parsed_config)
 
     def run(self):
         """ Main loop, called via .run method, or via __main__ section """
         log.debug('In run()')
-        parsed_config = get_config(self.args)
-        session = get_session(parsed_config)
 
         # call webcheck here
-        results = self.webcheck(session)
+        results = self.webcheck(self.session)
         log.debug('leaving run()')
         return results
 
@@ -152,23 +152,15 @@ def get_config(_args):
     return configuration
 
 
-def get_args():
-    """ we only run if called from main """
-    _args = get_options()
-
-    if _args.debug:
-        log.setLevel(logging.DEBUG)
-    else:
-        log.setLevel(logging.WARN)
-    return _args
-
-
 # Here we start if called directly (the usual case.)
 if __name__ == "__main__":
     # This is where we will begin when called from CLI. No need for argparse
     # unless being called interactively, so import it here
-    args = get_args()
+    args = get_options()
     # and now we can do, whatever it is, we do.
     check = webcheck()
     if args.debug:
+        log.setLevel(logging.DEBUG)
         print check.args
+    else:
+        log.setLevel(logging.WARN)
