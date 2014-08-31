@@ -111,6 +111,8 @@ def get_options():
 
     parser = argparse.ArgumentParser(
         description='Someproject does something')
+    parser.add_argument('-u', '--url', action='store',
+                        help='full URL to check')
     parser.add_argument('-n', '--dry-run', action='store_true',
                         help='Dry run, do not actually perform action',
                         default=False)
