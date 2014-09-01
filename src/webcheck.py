@@ -148,7 +148,7 @@ def get_config(_args):
             _config = configfile
             parser.read(_config)
         else:
-            log.warn('No config file found at %s', configfile)
+            log.debug('No config file found at %s', configfile)
 
 
     if _args.url:
