@@ -89,6 +89,8 @@ class webcheck(object):
     def webcheck(self, session):
         """ Do the webcheck """
         # Do something
+        if args.debug:
+            print args.url
         result = session
         return result
 
@@ -98,9 +100,10 @@ def get_session(_args):
     """
     log.debug('Getting session')
     _session = requests.Session()
-    user, passwd = _args.username, _args.password
-    _session.auth = (user, passwd)
-    _session.verify = False
+    if args.username:
+        user, passwd = _args.username, _args.password
+        _session.auth = (user, passwd)
+        _session.verify = False
     log.debug('leaving get_session')
     return _session
 
@@ -111,7 +114,7 @@ def get_options():
 
     parser = argparse.ArgumentParser(
         description='Someproject does something')
-    parser.add_argument('-u', '--url', action='store',
+    parser.add_argument('-U', '--url', action='store',
                         help='full URL to check')
     parser.add_argument('-n', '--dry-run', action='store_true',
                         help='Dry run, do not actually perform action',
@@ -119,8 +122,12 @@ def get_options():
     parser.add_argument('-d', '--debug', action='store_true',
                         help='Enable debugging during execution.',
                         default=None)
-    parser.add_argument('-c', '--config', action='store', default=None,
+    parser.add_argument('-c', '--config', action='store',
                         help='Specify a path to an alternate config file')
+    parser.add_argument('-u', '--username', action='store',
+                        help='username for auth')
+    parser.add_argument('-p', '--pass', action='store',
+                        help='passwd for auth')
 
     _args = parser.parse_args()
     _args.usage = PROJECTNAME + ".py [options]"
@@ -139,17 +146,16 @@ def get_config(_args):
     else:
         if os.path.isfile(configfile):
             _config = configfile
+            parser.read(_config)
         else:
             log.warn('No config file found at %s', configfile)
-            sys.exit(1)
 
-    parser.read(_config)
 
-    if _args.SOMEOPTION:
-        configuration['SOMEOPTION'] = _args.SOMEOPTION
+    if _args.url:
+        configuration['url'] = _args.url
     else:
-        configuration['SOMEOPTION'] = parser.get('CONFIGSECTION', 'SOMEOPTION')
-    log.debug('Doing things with %s', configuration['SOMEOPTION'])
+        configuration['url'] = parser.get('CHECK', 'url')
+    log.debug('Checking  %s', configuration['url'])
     log.debug('leaving get_config')
     return configuration
 
