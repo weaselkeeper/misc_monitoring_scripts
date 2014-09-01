@@ -68,44 +68,10 @@ logging.getLogger(PROJECTNAME).addHandler(console)
 log = logging.getLogger(PROJECTNAME)
 
 
-class Webcheck(object):
-    """ Basic Webcheck class """
-    def __init__(self):
-        """ Initialize the object"""
-        log.debug('initialize')
-        self.args = get_options()
-        parsed_config = get_config(self.args)
-        self.session = get_session(parsed_config)
-
-    def run(self):
-        """ Main loop, called via .run method, or via __main__ section """
-        log.debug('In run()')
-
-        # call Webcheck here
-        results = self.urlcheck(self.session)
-        log.debug('leaving run()')
-        return results
-
-    def urlcheck(self, session):
-        """ Do the urlcheck """
-        # Do something
-        if args.debug:
-            print args.url
-        result = session
-        return result
-
-
-def get_session(_args):
-    """ Build a session and return, so we can make multiple queries if asked
-    """
-    log.debug('Getting session')
-    _session = requests.Session()
-    if args.username:
-        user, passwd = _args.username, _args.password
-        _session.auth = (user, passwd)
-        _session.verify = False
-    log.debug('leaving get_session')
-    return _session
+def get_url(url):
+    """ get the status code for a get request on url"""
+    result = requests.get(url)
+    print result.status_code
 
 
 def get_options():
@@ -167,9 +133,10 @@ if __name__ == "__main__":
     # unless being called interactively, so import it here
     args = get_options()
     # and now we can do, whatever it is, we do.
-    check = Webcheck()
     if args.debug:
         log.setLevel(logging.DEBUG)
-        print check.args
+        print args
     else:
         log.setLevel(logging.WARN)
+    URL = args.url
+    get_url(URL)
