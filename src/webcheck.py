@@ -30,7 +30,7 @@
 ###
 
 """
-Simple webcheck script. Checks for connection, and return of expected data
+Simple Webcheck script. Checks for connection, and return of expected data
 
 License: GPL V2 See LICENSE file
 Author: Jim Richardson
@@ -68,8 +68,8 @@ logging.getLogger(PROJECTNAME).addHandler(console)
 log = logging.getLogger(PROJECTNAME)
 
 
-class webcheck(object):
-    """ Basic webcheck class """
+class Webcheck(object):
+    """ Basic Webcheck class """
     def __init__(self):
         """ Initialize the object"""
         log.debug('initialize')
@@ -81,13 +81,13 @@ class webcheck(object):
         """ Main loop, called via .run method, or via __main__ section """
         log.debug('In run()')
 
-        # call webcheck here
-        results = self.webcheck(self.session)
+        # call Webcheck here
+        results = self.urlcheck(self.session)
         log.debug('leaving run()')
         return results
 
-    def webcheck(self, session):
-        """ Do the webcheck """
+    def urlcheck(self, session):
+        """ Do the urlcheck """
         # Do something
         if args.debug:
             print args.url
@@ -167,7 +167,7 @@ if __name__ == "__main__":
     # unless being called interactively, so import it here
     args = get_options()
     # and now we can do, whatever it is, we do.
-    check = webcheck()
+    check = Webcheck()
     if args.debug:
         log.setLevel(logging.DEBUG)
         print check.args
