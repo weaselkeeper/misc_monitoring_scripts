@@ -128,6 +128,8 @@ def get_options():
                         help='username for auth')
     parser.add_argument('-p', '--pass', action='store',
                         help='passwd for auth')
+    parser.add_argument('-r', '--rc', action='store',
+                        help='Expected http return code eg 404, 200')
 
     _args = parser.parse_args()
     _args.usage = PROJECTNAME + ".py [options]"
@@ -149,7 +151,6 @@ def get_config(_args):
             parser.read(_config)
         else:
             log.debug('No config file found at %s', configfile)
-
 
     if _args.url:
         configuration['url'] = _args.url
