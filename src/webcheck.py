@@ -68,9 +68,11 @@ logging.getLogger(PROJECTNAME).addHandler(console)
 log = logging.getLogger(PROJECTNAME)
 
 
-def get_url(url):
+def get_url(url, sc=None):
     """ get the status code for a get request on url"""
     result = requests.get(url)
+    if sc:
+        print sc
     print result.status_code
 
 
@@ -139,4 +141,7 @@ if __name__ == "__main__":
     else:
         log.setLevel(logging.WARN)
     URL = args.url
-    get_url(URL)
+    if args.rc:
+        get_url(URL, args.rc)
+    else:
+        get_url(URL)
