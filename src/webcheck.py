@@ -90,8 +90,6 @@ def get_options():
     parser.add_argument('-d', '--debug', action='store_true',
                         help='Enable debugging during execution.',
                         default=None)
-    parser.add_argument('-c', '--config', action='store',
-                        help='Specify a path to an alternate config file')
     parser.add_argument('-u', '--username', action='store',
                         help='username for auth')
     parser.add_argument('-p', '--pass', action='store',
@@ -103,30 +101,6 @@ def get_options():
     _args.usage = PROJECTNAME + ".py [options]"
 
     return _args
-
-
-def get_config(_args):
-    """ Now parse the config file.  Get any and all info from config file."""
-    log.debug('Now in get_config')
-    parser = ConfigParser.SafeConfigParser()
-    configuration = {}
-    configfile = os.path.join('/etc', PROJECTNAME, PROJECTNAME + '.conf')
-    if _args.config:
-        _config = _args.config
-    else:
-        if os.path.isfile(configfile):
-            _config = configfile
-            parser.read(_config)
-        else:
-            log.debug('No config file found at %s', configfile)
-
-    if _args.url:
-        configuration['url'] = _args.url
-    else:
-        configuration['url'] = parser.get('CHECK', 'url')
-    log.debug('Checking  %s', configuration['url'])
-    log.debug('leaving get_config')
-    return configuration
 
 
 # Here we start if called directly (the usual case.)
