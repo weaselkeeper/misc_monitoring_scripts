@@ -68,12 +68,15 @@ logging.getLogger(PROJECTNAME).addHandler(console)
 log = logging.getLogger(PROJECTNAME)
 
 
-def get_url(url, sc=None):
+def get_url(url, sc=200):
     """ get the status code for a get request on url"""
     result = requests.get(url)
-    if sc:
-        print sc
-    print result.status_code
+    RC = result.status_code
+    if RC == sc:
+        print "All's well"
+    else:
+        print "Status code %s incorrect, expected %s" % (RC, sc)
+        sys.exit(1)
 
 
 def get_options():
