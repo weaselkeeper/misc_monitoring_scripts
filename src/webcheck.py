@@ -68,7 +68,7 @@ logging.getLogger(PROJECTNAME).addHandler(console)
 log = logging.getLogger(PROJECTNAME)
 
 
-def get_url(url, sc=200):
+def get_url(url, sc):
     """ get the status code for a get request on url"""
     result = requests.get(url)
     RC = result.status_code
@@ -97,8 +97,8 @@ def get_options():
                         help='username for auth')
     parser.add_argument('-p', '--pass', action='store',
                         help='passwd for auth')
-    parser.add_argument('-r', '--rc', action='store',
-                        help='Expected http return code eg 404, 200')
+    parser.add_argument('-s', '--sc', action='store', default=200,
+                        help='Expected http status code eg 404, 200')
 
     _args = parser.parse_args()
     _args.usage = PROJECTNAME + ".py [options]"
@@ -117,8 +117,5 @@ if __name__ == "__main__":
         print args
     else:
         log.setLevel(logging.WARN)
-    URL = args.url
-    if args.rc:
-        get_url(URL, args.rc)
-    else:
-        get_url(URL)
+    URL, sc = args.url, args.sc
+    get_url(URL, sc)
