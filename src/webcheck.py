@@ -117,5 +117,8 @@ if __name__ == "__main__":
         print args
     else:
         log.setLevel(logging.WARN)
+    if not args.url:
+        print 'need a url to query'
+        sys.exit(1)
     URL, sc = args.url, args.sc
     get_url(URL, sc)
