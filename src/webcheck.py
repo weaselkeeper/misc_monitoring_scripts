@@ -40,9 +40,7 @@ email: weaselkeeper@gmail.com
 PROJECTNAME = 'webcheck'
 
 
-import ConfigParser
 import sys
-import os
 import logging
 
 try:
