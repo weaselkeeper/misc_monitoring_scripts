@@ -66,14 +66,15 @@ logging.getLogger(PROJECTNAME).addHandler(console)
 log = logging.getLogger(PROJECTNAME)
 
 
-def get_url(url, sc):
+def get_url(url, status_code):
     """ get the status code for a get request on url"""
+    status_code = int(status_code)
     result = requests.get(url)
     RC = result.status_code
-    if RC == sc:
+    if RC == status_code:
         print "All's well"
     else:
-        print "Status code %s incorrect, expected %s" % (RC, sc)
+        print "Status code %s incorrect, expected %s" % (RC, status_code)
         sys.exit(1)
 
 
