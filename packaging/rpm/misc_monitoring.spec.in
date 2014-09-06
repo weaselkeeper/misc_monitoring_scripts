@@ -96,7 +96,6 @@ cp -r ./*.conf %{buildroot}%{_sysconfdir}/%{name}
 
 %files webcheck
 %{_bindir}/webcheck.py
-%{_sysconfdir}/%{name}/*.conf
 
 
 %files svncheck
