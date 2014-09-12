@@ -104,5 +104,7 @@ if __name__ == "__main__":
     else:
         log.setLevel(logging.WARN)
     if not args.host:
-        print 'need a domain/host to query for e.g www.google.com'
+        print """need a domain/host to query for e.g www.google.com
+        something like:
+        dnscompare -f 8.8.8.8 -s 8.8.4.4 -H www.google.com"""
         sys.exit(1)
