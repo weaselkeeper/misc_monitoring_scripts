@@ -22,6 +22,7 @@ Files: check_unmonitored.conf /etc/check_unmonitored
  puppetFailures.py /usr/bin
  cerberus.conf /etc/cerberus
  cerberus.py /usr/bin
+ dnscompare.py /usr/bin
 
 Description: A few misc monitoring scripts.
  .
