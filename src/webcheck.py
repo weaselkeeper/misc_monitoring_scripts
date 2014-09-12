@@ -83,7 +83,7 @@ def get_options():
     import argparse
 
     parser = argparse.ArgumentParser(
-        description='Someproject does something')
+        description='Check a URL for a specific status code')
     parser.add_argument('-U', '--url', action='store',
                         help='full URL to check')
     parser.add_argument('-n', '--dry-run', action='store_true',
