@@ -15,6 +15,14 @@ Small monitoring scripts for misc tasks.
 
 # Sub packages
 
+%package  dnscompare
+Summary:	Check dns resolvers for consistency
+Requires:	python
+BuildArch:      noarch
+
+%description dnscompare
+Check two resolvers for same host/domain, compare, error if different.
+
 %package  check_unmonitored
 Summary:	Check zabbix for hosts in umonitored state
 Requires:	python
@@ -84,6 +92,11 @@ rm -rf %{buildroot}
 cp -r ./*.py %{buildroot}%{_bindir}/
 cp -r ./*.conf %{buildroot}%{_sysconfdir}/%{name}
 
+
+%files dnscompare
+%{_bindir}/dnscompare.py
+#%{_sysconfdir}/%{name}/*.conf
+
 %files check_unmonitored
 %{_bindir}/check_unmonitored.py
 #%{_sysconfdir}/%{name}/*.conf
@@ -93,10 +106,8 @@ cp -r ./*.conf %{buildroot}%{_sysconfdir}/%{name}
 #%{_bindir}/*.py[co]
 %{_sysconfdir}/%{name}/*.conf
 
-
 %files webcheck
 %{_bindir}/webcheck.py
-
 
 %files svncheck
 %{_bindir}/svncheck.py
