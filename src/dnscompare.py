@@ -107,3 +107,6 @@ if __name__ == "__main__":
         something like:
         dnscompare.py -f 8.8.8.8 -s 8.8.4.4 -H www.google.com"""
         sys.exit(1)
+    answers = resolve.query(args.host, 'A')
+    for rdata in answers:
+        print rdata
