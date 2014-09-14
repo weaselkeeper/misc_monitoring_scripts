@@ -43,9 +43,8 @@ PROJECTNAME = 'dnscompare'
 
 import sys
 import logging
-
 try:
-    import requests
+    import dns.resolver as resolve
 except ImportError:
     print """
 
@@ -106,5 +105,5 @@ if __name__ == "__main__":
     if not args.host:
         print """need a domain/host to query for e.g www.google.com
         something like:
-        dnscompare -f 8.8.8.8 -s 8.8.4.4 -H www.google.com"""
+        dnscompare.py -f 8.8.8.8 -s 8.8.4.4 -H www.google.com"""
         sys.exit(1)
