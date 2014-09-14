@@ -91,6 +91,23 @@ def get_options():
     return _args
 
 
+def get_IP(resolver, queryhost):
+    answers = resolve.query(queryhost, 'A')
+    IPs = []
+    for rdata in answers:
+        IPs.append(rdata)
+    IPs.sort()
+    return IPs
+
+
+def answers_compare(answer1, answer2):
+    if answer1 == answer2:
+        print 'all good'
+        sys.exit(0)
+    else:
+        print 'something not right'
+        sys.exit(1)
+
 # Here we start if called directly (the usual case.)
 if __name__ == "__main__":
     # This is where we will begin when called from CLI. No need for argparse
@@ -107,6 +124,10 @@ if __name__ == "__main__":
         something like:
         dnscompare.py -f 8.8.8.8 -s 8.8.4.4 -H www.google.com"""
         sys.exit(1)
-    answers = resolve.query(args.host, 'A')
-    for rdata in answers:
-        print rdata
+    answer1 = get_IP(args.resolver1, args.host)
+    answer2 = get_IP(args.resolver2, args.host)
+    if args.debug:
+        print answer1
+        print answer2
+    answers_compare(answer1, answer2)
+
