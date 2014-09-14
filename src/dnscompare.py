@@ -44,7 +44,7 @@ PROJECTNAME = 'dnscompare'
 import sys
 import logging
 try:
-    import dns.resolver as resolve
+    import dns.resolver
 except ImportError:
     print """
 
@@ -91,11 +91,12 @@ def get_options():
     return _args
 
 
-def get_IP(resolver, queryhost):
+def get_IP(nameserver, queryhost):
+    resolver = dns.resolver.Resolver()
+    resolver.nameservers = [nameserver]
+    answers = resolver.query(queryhost, 'A')
     if args.debug:
-        print resolver, queryhost
-    resolve.Resolver(resolver)
-    answers = resolve.query(queryhost, 'A')
+        print nameserver, queryhost, resolver.nameservers
     IPs = []
     for rdata in answers:
         IPs.append(rdata)
