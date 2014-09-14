@@ -92,6 +92,9 @@ def get_options():
 
 
 def get_IP(resolver, queryhost):
+    if args.debug:
+        print resolver, queryhost
+    resolve.Resolver(resolver)
     answers = resolve.query(queryhost, 'A')
     IPs = []
     for rdata in answers:
