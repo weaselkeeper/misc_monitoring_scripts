@@ -78,3 +78,12 @@ A tool used to send alerts via pushover <https://pushover.net>
 
 Unlike SMS and email, you know if the message was received or not.
 
+
+=============================================================================
+
+dnscompare.py
+==================
+
+Compare host lookups across two different resolvers.  Useful to check sync of
+resolvers, as well as check against dns hijaking and cache poisoning.
+
