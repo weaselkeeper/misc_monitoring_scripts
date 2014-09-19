@@ -48,7 +48,7 @@ try:
 except ImportError:
     print """
 
-    please ensure availability of python-requests module
+    please ensure availability of python-dns module
     Thank you.
 
     """
