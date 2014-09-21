@@ -80,12 +80,15 @@ def get_options():
     parser.add_argument('-d', '--debug', action='store_true',
                         help='Enable debugging during execution.',
                         default=None)
+    parser.add_argument('-v', '--verbose', action='store_true',
+                        help='Verbose output.',
+                        default=None)
     parser.add_argument('-f', '--resolver1', action='store',
                         help='First resolver')
     parser.add_argument('-s', '--resolver2', action='store',
                         help='Second resolver')
     parser.add_argument('-q', '--quiet', action='store_true',
-                        help='do not print results, simply exit w/rc')
+                        help='do not print results, output return code')
 
 
     _args = parser.parse_args()
@@ -99,7 +102,7 @@ def get_IP(nameserver, queryhost):
     resolver = dns.resolver.Resolver()
     resolver.nameservers = [nameserver]
     answers = resolver.query(queryhost, 'A')
-    if args.debug:
+    if args.verbose:
         print nameserver, queryhost, resolver.nameservers
     IPs = []
     for rdata in answers:
@@ -136,7 +139,7 @@ if __name__ == "__main__":
         sys.exit(1)
     answer1 = get_IP(args.resolver1, args.host)
     answer2 = get_IP(args.resolver2, args.host)
-    if args.debug:
+    if args.verbose:
         print answer1
         print answer2
     answers_compare(answer1, answer2)
