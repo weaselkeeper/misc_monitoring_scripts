@@ -84,6 +84,9 @@ def get_options():
                         help='First resolver')
     parser.add_argument('-s', '--resolver2', action='store',
                         help='Second resolver')
+    parser.add_argument('-q', '--quiet', action='store_true',
+                        help='do not print results, simply exit w/rc')
+
 
     _args = parser.parse_args()
     _args.usage = PROJECTNAME + ".py [options]"
@@ -107,10 +110,12 @@ def get_IP(nameserver, queryhost):
 
 def answers_compare(answer1, answer2):
     if answer1 == answer2:
-        print 'all good'
+        if not args.quiet:
+            print 'all good'
         sys.exit(0)
     else:
-        print 'something not right'
+        if not args.quiet:
+            print 'something not right'
         sys.exit(1)
 
 # Here we start if called directly (the usual case.)
