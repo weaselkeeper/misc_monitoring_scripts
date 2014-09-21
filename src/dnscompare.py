@@ -66,12 +66,25 @@ logging.getLogger(PROJECTNAME).addHandler(console)
 log = logging.getLogger(PROJECTNAME)
 
 
+def get_config(config):
+    """ Read and parse config file"""
+    log.debug("Getting config file")
+    import ConfigParser
+    parser = ConfigParser.SafeConfigParser()
+    parser.read(config)
+    args.resolver1 = parser.get('dnscompare', 'resolver1')
+    args.resolver2 = parser.get('dnscompare', 'resolver2')
+    args.host = parser.get('dnscompare', 'hosts').split('\n')
+    return
+
 def get_options():
     """ Parse the command line options"""
     import argparse
 
     parser = argparse.ArgumentParser(
         description='compare results from two dns resolvers')
+    parser.add_argument('-c', '--config', action='store',
+                        help='use config in file')
     parser.add_argument('-H', '--host', action='store',
                         help='host to query for')
     parser.add_argument('-n', '--dry-run', action='store_true',
@@ -89,7 +102,6 @@ def get_options():
                         help='Second resolver')
     parser.add_argument('-q', '--quiet', action='store_true',
                         help='do not print results, output return code')
-
 
     _args = parser.parse_args()
     _args.usage = PROJECTNAME + ".py [options]"
@@ -111,21 +123,44 @@ def get_IP(nameserver, queryhost):
     return IPs
 
 
-def answers_compare(answer1, answer2):
+def answers_compare(host, answer1, answer2):
     if answer1 == answer2:
         if not args.quiet:
-            print 'all good'
-        sys.exit(0)
+            print host, 'all good'
     else:
         if not args.quiet:
-            print 'something not right'
+            print host, 'something not right'
         sys.exit(1)
+
+
+def run_query(host):
+    """ query for the host against both resolvers"""
+    answer1 = get_IP(args.resolver1, host)
+    answer2 = get_IP(args.resolver2, host)
+    if args.verbose:
+        print answer1
+        print answer2
+    return answer1, answer2
+
+
+def run():
+    """ Being doing stuff """
+    if type(args.host) != list:
+        hostlist = [args.host, ]
+    else:
+        hostlist = args.host
+    for host in hostlist:
+            answer1, answer2 = run_query(host)
+            answers_compare(host, answer1, answer2)
+
 
 # Here we start if called directly (the usual case.)
 if __name__ == "__main__":
     # This is where we will begin when called from CLI. No need for argparse
     # unless being called interactively, so import it here
     args = get_options()
+    if args.config:
+        get_config(args.config)
     # and now we can do, whatever it is, we do.
     if args.debug:
         log.setLevel(logging.DEBUG)
@@ -137,10 +172,5 @@ if __name__ == "__main__":
         something like:
         dnscompare.py -f 8.8.8.8 -s 8.8.4.4 -H www.google.com"""
         sys.exit(1)
-    answer1 = get_IP(args.resolver1, args.host)
-    answer2 = get_IP(args.resolver2, args.host)
-    if args.verbose:
-        print answer1
-        print answer2
-    answers_compare(answer1, answer2)
 
+    run()
