@@ -150,8 +150,8 @@ def run():
     else:
         hostlist = args.host
     for host in hostlist:
-            answer1, answer2 = run_query(host)
-            answers_compare(host, answer1, answer2)
+        answer1, answer2 = run_query(host)
+        answers_compare(host, answer1, answer2)
 
 
 # Here we start if called directly (the usual case.)
