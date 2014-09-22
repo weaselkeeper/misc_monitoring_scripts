@@ -124,6 +124,7 @@ def get_IP(nameserver, queryhost):
 
 
 def answers_compare(host, answer1, answer2):
+    """ compare the two answeres, bitch if they don't match"""
     if answer1 == answer2:
         if not args.quiet:
             print host, 'all good'
