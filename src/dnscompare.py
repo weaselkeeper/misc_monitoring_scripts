@@ -109,11 +109,11 @@ def get_options():
     return _args
 
 
-def get_IP(nameserver, queryhost):
-    """ return all the A records for queryhost, from nameserver"""
+def get_IP(nameserver, queryhost, querytype = "A"):
+    """ return all the requested records for queryhost, defaults to A record"""
     resolver = dns.resolver.Resolver()
     resolver.nameservers = [nameserver]
-    answers = resolver.query(queryhost, 'A')
+    answers = resolver.query(queryhost, querytype)
     if args.verbose:
         print nameserver, queryhost, resolver.nameservers
     IPs = []
