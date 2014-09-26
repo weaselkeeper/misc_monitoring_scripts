@@ -138,8 +138,12 @@ def answers_compare(host, answer1, answer2):
 
 def run_query(host):
     """ query for the host against both resolvers"""
-    answer1 = get_IP(args.resolver1, host, args.query)
-    answer2 = get_IP(args.resolver2, host, args.query)
+    try:
+        answer1 = get_IP(args.resolver1, host, args.query)
+        answer2 = get_IP(args.resolver2, host, args.query)
+    except dns.resolver.NoAnswer:
+        print 'No answer for that query, check host and querytype'
+        sys.exit(1)
     if args.verbose:
         print answer1
         print answer2
