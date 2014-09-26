@@ -100,6 +100,8 @@ def get_options():
                         help='First resolver')
     parser.add_argument('-s', '--resolver2', action='store',
                         help='Second resolver')
+    parser.add_argument('-Q', '--query', action='store',
+                        help='Record type to query for', default='A')
     parser.add_argument('-q', '--quiet', action='store_true',
                         help='do not print results, output return code')
 
@@ -136,8 +138,8 @@ def answers_compare(host, answer1, answer2):
 
 def run_query(host):
     """ query for the host against both resolvers"""
-    answer1 = get_IP(args.resolver1, host)
-    answer2 = get_IP(args.resolver2, host)
+    answer1 = get_IP(args.resolver1, host, args.query)
+    answer2 = get_IP(args.resolver2, host, args.query)
     if args.verbose:
         print answer1
         print answer2
