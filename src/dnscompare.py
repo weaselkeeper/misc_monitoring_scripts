@@ -134,7 +134,6 @@ def answers_compare(host, answer1, answer2):
     else:
         if not args.quiet:
             print host, 'something not right'
-        sys.exit(1)
 
 
 def run_query(host):
