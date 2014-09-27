@@ -75,6 +75,7 @@ def get_config(config):
     args.resolver1 = parser.get('dnscompare', 'resolver1')
     args.resolver2 = parser.get('dnscompare', 'resolver2')
     args.host = parser.get('dnscompare', 'hosts').split('\n')
+    args.query = parser.get('dnscompare', 'query')
     return
 
 def get_options():
