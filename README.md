@@ -85,5 +85,5 @@ dnscompare.py
 ==================
 
 Compare host lookups across two different resolvers.  Useful to check sync of
-resolvers, as well as check against dns hijaking and cache poisoning.
+resolvers, as well as check against dns hijacking and cache poisoning.
 
