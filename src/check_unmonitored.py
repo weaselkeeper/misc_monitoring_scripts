@@ -216,7 +216,7 @@ def pull_data(_con, whitelist):
 
 def zabbix_push(_host, _con):
     """ Having found a host that is unmonitored, but not in a whitelisted
-    group, Push that into zabbix for it to deal with."""
+    group, Enable monitoring """
     log.debug('entering zabbix_push')
     log.debug("Host %s has escaped monitoring, without appropriate group membership", _host[1])
     # Now turn monitoring on via mysql connection, in zabbix, for this host.
