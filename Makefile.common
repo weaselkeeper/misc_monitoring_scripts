@@ -55,6 +55,7 @@ authors:
 common: authors
 
 check: authors deb srpm rpm clean
+test: check
 
 # Build targets
 
