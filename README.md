@@ -36,9 +36,7 @@ check_unmonitored
 ===========
 
 Description: Track systems in zabbix that are in unmonitored state.
-Author: Jim Richardson
-Email: weaselkeeper@gmail.com
-Long-Description:
+
   It is sometimes neccessary to temporarily disable monitoring on a given host
 in Zabbix. But it's possible to forget to re-enable monitoring after the need
 to disable it has passed.  While maintenance periods can be set, they are
