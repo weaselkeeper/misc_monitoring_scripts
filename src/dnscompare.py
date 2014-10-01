@@ -116,7 +116,10 @@ def get_IP(nameserver, queryhost, querytype="A"):
     """ return all the requested records for queryhost, defaults to A record"""
     resolver = dns.resolver.Resolver()
     resolver.nameservers = [nameserver]
-    answers = resolver.query(queryhost, querytype)
+    try:
+        answers = resolver.query(queryhost, querytype)
+    except dns.resolver.NXDOMAIN:
+        answers = [None]
     if args.verbose:
         print nameserver, queryhost, resolver.nameservers
     IPs = []
@@ -143,7 +146,7 @@ def run_query(host):
         answer2 = get_IP(args.resolver2, host, args.query)
     except dns.resolver.NoAnswer:
         print "%s  No answer for that query, check host and querytype" % host
-        sys.exit(1)
+        answer1, answer2 = None, None
     if args.verbose:
         print answer1
         print answer2
