@@ -112,7 +112,7 @@ def get_options():
     return _args
 
 
-def get_IP(nameserver, queryhost, querytype = "A"):
+def get_IP(nameserver, queryhost, querytype="A"):
     """ return all the requested records for queryhost, defaults to A record"""
     resolver = dns.resolver.Resolver()
     resolver.nameservers = [nameserver]
