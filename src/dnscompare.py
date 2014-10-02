@@ -114,11 +114,14 @@ def get_options():
 
 def get_IP(nameserver, queryhost, querytype="A"):
     """ return all the requested records for queryhost, defaults to A record"""
+    log.debug("in get_IP")
     resolver = dns.resolver.Resolver()
     resolver.nameservers = [nameserver]
+    log.debug("Looking at %s for %s" % (nameserver, queryhost))
     try:
         answers = resolver.query(queryhost, querytype)
     except dns.resolver.NXDOMAIN:
+        log.debug("Can not find domain")
         answers = [None]
     if args.verbose:
         print nameserver, queryhost, resolver.nameservers
@@ -126,6 +129,7 @@ def get_IP(nameserver, queryhost, querytype="A"):
     for rdata in answers:
         IPs.append(rdata)
     IPs.sort()
+    log.debug("Leaving get_IP")
     return IPs
 
 
