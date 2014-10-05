@@ -23,6 +23,7 @@ Files: check_unmonitored.conf /etc/check_unmonitored
  cerberus.conf /etc/cerberus
  cerberus.py /usr/bin
  dnscompare.py /usr/bin
+ dnscompare.conf /etc/dnscompare
 
 Description: A few misc monitoring scripts.
  .
