@@ -95,16 +95,15 @@ cp -r ./*.conf %{buildroot}%{_sysconfdir}/%{name}
 
 %files dnscompare
 %{_bindir}/dnscompare.py
-#%{_sysconfdir}/%{name}/*.conf
+%{_sysconfdir}/%{name}/dnscompare.conf
 
 %files check_unmonitored
 %{_bindir}/check_unmonitored.py
-#%{_sysconfdir}/%{name}/*.conf
+%{_sysconfdir}/%{name}/check_unmonitored.conf
 
 %files webapp_health_mon
 %{_bindir}/webapp_monitor.py
-#%{_bindir}/*.py[co]
-%{_sysconfdir}/%{name}/*.conf
+#%{_sysconfdir}/%{name}/*.conf
 
 %files webcheck
 %{_bindir}/webcheck.py
@@ -117,7 +116,7 @@ cp -r ./*.conf %{buildroot}%{_sysconfdir}/%{name}
 
 %files cerberus
 %{_bindir}/cerberus.py
-%{_sysconfdir}/%{name}/*.conf
+%{_sysconfdir}/%{name}/cerberus.conf
 
 %pre
 
