@@ -105,6 +105,8 @@ def get_options():
                         help='Record type to query for', default='A')
     parser.add_argument('-q', '--quiet', action='store_true',
                         help='do not print results, output return code')
+    parser.add_argument('-L', '--hostlist', action='store',
+                        help='hostlist file to query for')
 
     _args = parser.parse_args()
     _args.usage = PROJECTNAME + ".py [options]"
@@ -161,7 +163,12 @@ def run_query(host):
 
 def run():
     """ Being doing stuff """
-    if type(args.host) != list:
+    if args.hostlist:
+        _list = open(args.hostlist)
+        hostlist = _list.readlines()
+        print hostlist
+
+    elif type(args.host) != list:
         hostlist = [args.host, ]
     else:
         hostlist = args.host
@@ -183,7 +190,7 @@ if __name__ == "__main__":
         print args
     else:
         log.setLevel(logging.WARN)
-    if not args.host:
+    if not args.host and not args.hostlist:
         print """need a domain/host to query for e.g www.google.com
         something like:
         dnscompare.py -f 8.8.8.8 -s 8.8.4.4 -H www.google.com"""
