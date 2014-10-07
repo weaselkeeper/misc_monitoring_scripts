@@ -166,7 +166,8 @@ def run():
     if args.hostlist:
         _list = open(args.hostlist)
         hostlist = _list.readlines()
-        print hostlist
+        if args.verbose:
+            print hostlist
 
     elif type(args.host) != list:
         hostlist = [args.host, ]
