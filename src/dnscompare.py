@@ -120,13 +120,13 @@ def get_IP(nameserver, queryhost, querytype="A"):
     resolver = dns.resolver.Resolver()
     resolver.nameservers = [nameserver]
     try:
-        log.debug("Looking for %s from %s about %s", (querytype, nameserver,
-                  queryhost))
+        log.debug("Looking for %s from %s about %s", querytype, nameserver, queryhost)
         answers = resolver.query(queryhost, querytype)
-        log.debug("Got %s from %s for %s", (answers, nameserver, queryhost))
+        log.debug("Got %s from %s for %s", answers, nameserver, queryhost)
     except dns.resolver.NXDOMAIN:
         log.debug("Can not find domain")
         answers = [None]
+        log.debug("Got Nothing from %s for %s", nameserver, queryhost)
     if args.verbose:
         print nameserver, queryhost, resolver.nameservers
     IPs = []
