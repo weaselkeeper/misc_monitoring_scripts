@@ -62,7 +62,7 @@ Right now, it's pretty basic, all the checks are in the code, will be moving
 that to a config file (optional) in the future.
 
 Usage:  Simply run the monitor script, after changing MAILTO, MAILFROM and
-MONTITOR_URL, as well as configuring the checks in the checks() function.
+MONITOR_URL, as well as configuring the checks in the checks() function.
 
 If one of the checks is triggered, an email will be sent via local mailserver
 to the specified MAILTO. 
