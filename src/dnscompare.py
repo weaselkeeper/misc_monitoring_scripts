@@ -152,12 +152,12 @@ def run_query(host):
     try:
         answer1 = get_IP(args.resolver1, host, args.query)
     except dns.resolver.NoAnswer:
-        print "%s  No answer from %s, check host and querytype"% (host,args.resolver1)
+        print "%s  No answer from %s, check host and querytype"% (host, args.resolver1)
         answer1 = None
     try:
         answer2 = get_IP(args.resolver2, host, args.query)
     except:
-        print "%s  No answer from %s, check host and querytype" % (host,args.resolver2)
+        print "%s  No answer from %s, check host and querytype" % (host, args.resolver2)
         answer2 = None
     if args.verbose:
         print answer1
