@@ -178,6 +178,7 @@ def run():
     else:
         hostlist = args.host
     for host in hostlist:
+        host = host.strip()
         answer1, answer2 = run_query(host)
         answers_compare(host, answer1, answer2)
 
