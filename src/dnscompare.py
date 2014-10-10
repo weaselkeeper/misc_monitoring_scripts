@@ -78,6 +78,20 @@ def get_config(config):
     args.query = parser.get('dnscompare', 'query')
     return
 
+
+def get_zonelist(nameserver, domain):
+    """ Query nameserver for list of records for domain, uses AXFR which must
+    be enabled on nameserver for your querying host"""
+    import dns.zone
+    import dns.query
+    zones = dns.zone.from_xfr(dns.query.xfr(nameserver, domain))
+    names = zones.nodes.keys()
+    names.sort()
+    for n in names:
+        print zones[n].to_text(n)
+    sys.exit(0)
+
+
 def get_options():
     """ Parse the command line options"""
     import argparse
@@ -103,6 +117,8 @@ def get_options():
                         help='Second resolver')
     parser.add_argument('-Q', '--query', action='store',
                         help='Record type to query for', default='A')
+    parser.add_argument('-Z', '--zoneXfer', action='store_true',
+                        help='Get list of records for zone, requires -f resolver and -H domain')
     parser.add_argument('-q', '--quiet', action='store_true',
                         help='do not print results, output return code')
     parser.add_argument('-L', '--hostlist', action='store',
@@ -188,6 +204,8 @@ if __name__ == "__main__":
     # This is where we will begin when called from CLI. No need for argparse
     # unless being called interactively, so import it here
     args = get_options()
+    if args.zoneXfer:
+        get_zonelist(args.resolver1, args.host)
     if args.config:
         get_config(args.config)
     # and now we can do, whatever it is, we do.
