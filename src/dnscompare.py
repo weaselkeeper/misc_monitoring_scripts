@@ -45,6 +45,8 @@ import sys
 import logging
 try:
     import dns.resolver
+    import dns.zone
+    import dns.query
 except ImportError:
     print """
 
@@ -82,8 +84,6 @@ def get_config(config):
 def get_zonelist(nameserver, domain):
     """ Query nameserver for list of records for domain, uses AXFR which must
     be enabled on nameserver for your querying host"""
-    import dns.zone
-    import dns.query
     zones = dns.zone.from_xfr(dns.query.xfr(nameserver, domain))
     names = zones.nodes.keys()
     names.sort()
