@@ -118,7 +118,7 @@ def get_options():
     parser.add_argument('-Q', '--query', action='store',
                         help='Record type to query for', default='A')
     parser.add_argument('-Z', '--zoneXfer', action='store_true',
-                        help='Get list of records for zone, requires -f resolver and -H domain')
+                        help='list domains, requires -f resolver and -H domain')
     parser.add_argument('-q', '--quiet', action='store_true',
                         help='do not print results, output return code')
     parser.add_argument('-L', '--hostlist', action='store',
@@ -136,7 +136,8 @@ def get_IP(nameserver, queryhost, querytype="A"):
     resolver = dns.resolver.Resolver()
     resolver.nameservers = [nameserver]
     try:
-        log.debug("Looking for %s from %s about %s", querytype, nameserver, queryhost)
+        log.debug("Looking for %s from %s about %s",
+                  querytype, nameserver, queryhost)
         answers = resolver.query(queryhost, querytype)
         log.debug("Got %s from %s for %s", answers, nameserver, queryhost)
     except dns.resolver.NXDOMAIN:
@@ -168,12 +169,12 @@ def run_query(host):
     try:
         answer1 = get_IP(args.resolver1, host, args.query)
     except dns.resolver.NoAnswer:
-        print "%s  No answer from %s, check host and querytype"% (host, args.resolver1)
+        print "%s No answer from %s"% (host, args.resolver1)
         answer1 = None
     try:
         answer2 = get_IP(args.resolver2, host, args.query)
     except dns.resolver.NoAnswer:
-        print "%s  No answer from %s, check host and querytype" % (host, args.resolver2)
+        print "%s  No answer from %s" % (host, args.resolver2)
         answer2 = None
     if args.verbose:
         print answer1
