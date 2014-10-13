@@ -87,8 +87,8 @@ def get_zonelist(nameserver, domain):
     zones = dns.zone.from_xfr(dns.query.xfr(nameserver, domain))
     names = zones.nodes.keys()
     names.sort()
-    for n in names:
-        print zones[n].to_text(n)
+    for name in names:
+        print zones[name].to_text(name)
     sys.exit(0)
 
 
