@@ -105,11 +105,8 @@ def get_options():
     parser.add_argument('-n', '--dry-run', action='store_true',
                         help='Dry run, do not actually perform action',
                         default=False)
-    parser.add_argument('-d', '--debug', action='store_true',
-                        help='Enable debugging during execution.',
-                        default=None)
-    parser.add_argument('-v', '--verbose', action='store_true',
-                        help='Verbose output.',
+    parser.add_argument('-v', '--verbose', action='count',
+                        help='Verbose output, move v means more verbose',
                         default=None)
     parser.add_argument('-f', '--resolver1', action='store',
                         help='First resolver')
@@ -210,7 +207,8 @@ if __name__ == "__main__":
     if args.config:
         get_config(args.config)
     # and now we can do, whatever it is, we do.
-    if args.debug:
+    if args.verbose >= 2:
+    # Enable debug level logging
         log.setLevel(logging.DEBUG)
         print args
     else:
