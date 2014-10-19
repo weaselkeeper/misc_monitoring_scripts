@@ -73,9 +73,11 @@ class cerberus(object):
         conn.request("POST", "/1/messages.json",
                      urllib.urlencode(_options),
                      {"Content-type": "application/x-www-form-urlencoded"})
-        conn.getresponse()
+        result = conn.getresponse()
+        if args.debug:
+            print result
         log.debug('leaving run in cerberus class')
-        return
+        return result
 
 
 def get_config(_args):
@@ -161,4 +163,4 @@ if __name__ == "__main__":
 
     options = get_config(args)
 
-    barkingDog.run(options)
+    results = barkingDog.run(options)
