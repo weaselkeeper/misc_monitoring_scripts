@@ -59,12 +59,16 @@ logging.getLogger(PROJECTNAME).addHandler(console)
 log = logging.getLogger(PROJECTNAME)
 
 
+# Setup a couple variables.
+pushover_host = 'api.pushover.net'
+pushover_port = 443
+
 class cerberus(object):
     """ Instantiates a cerberus object, use it to send notifications """
     log.debug('In class Cerberus')
 
     def __init__(self):
-        self.host, self.port = 'api.pushover.net', 443
+        self.host, self.port = pushover_host, pushover_port
 
     def run(self, _options):
         """ Do, whatever it is, we do. """
