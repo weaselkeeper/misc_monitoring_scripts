@@ -45,9 +45,9 @@ state too long, we present forgetmentnot.
 
 The scope is simple, check zabbix for unmonitored hosts that don't belong to a
 whitelist of host hostgroups. (in our case, decommissioned, and spare servers)
-Alerting if any unmonitored hosts not in the whitelist groups remain in
-unmonitored state for longer than a configurable amount (set to 24 hrs by
-default)
+Re-enabling monitoring  if any unmonitored hosts not in the whitelist groups
+remain in unmonitored state for longer than a configurable amount (set to 24
+hrs by default)
 
 =============================================================================
 
