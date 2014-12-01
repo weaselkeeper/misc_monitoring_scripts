@@ -84,4 +84,21 @@ dnscompare.py
 
 Compare host lookups across two different resolvers.  Useful to check sync of
 resolvers, as well as check against dns hijacking and cache poisoning.
+optional arguments:
+  -h, --help            show this help message and exit
+  -c CONFIG, --config CONFIG
+                        use config in file
+  -H HOST, --host HOST  host to query for
+  -n, --dry-run         Dry run, do not actually perform action
+  -v, --verbose         Verbose output, move v means more verbose
+  -f RESOLVER1, --resolver1 RESOLVER1
+                        First resolver
+  -s RESOLVER2, --resolver2 RESOLVER2
+                        Second resolver
+  -Q QUERY, --query QUERY
+                        Record type to query for
+  -Z, --zoneXfer        list domains, requires -f resolver and -H domain
+  -q, --quiet           do not print results, output return code
+  -L HOSTLIST, --hostlist HOSTLIST
+                        hostlist file to query for
 
