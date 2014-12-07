@@ -49,9 +49,21 @@ Re-enabling monitoring  if any unmonitored hosts not in the whitelist groups
 remain in unmonitored state for longer than a configurable amount (set to 24
 hrs by default)
 
+usage: check_unmonitored.py [-h] [-n] [-d] [-c CONFIG]
+
+Pass cli options to script
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -n, --dryrun          Dry run will report what it would do, but makes no
+                        changes to the DB
+  -d, --debug
+  -c CONFIG, --config CONFIG
+
+
 =============================================================================
 
-webapp-health-mon
+webapp_monitor.py
 =================
 
 This is a standalone monitor written in python, for webapps that can return 
@@ -67,6 +79,16 @@ MONITOR_URL, as well as configuring the checks in the checks() function.
 If one of the checks is triggered, an email will be sent via local mailserver
 to the specified MAILTO. 
 
+usage: webapp_monitor.py [-h] [-n] [-d]
+
+Pass cli options to script
+
+optional arguments:
+  -h, --help      show this help message and exit
+  -n, --noreport  run the check, but do not trigger a report
+  -d, --debug
+
+
 =============================================================================
 
 cereberus.py
@@ -75,6 +97,24 @@ cereberus.py
 A tool used to send alerts via pushover <https://pushover.net>
 
 Unlike SMS and email, you know if the message was received or not.
+
+usage: cerberus.py [-h] [-n] [-d] [-r] [-c CONFIG] [-u USER] [-t TOKEN]
+                   [-m MSG] [-p]
+
+Cerberus alerts you
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -n, --dry-run         Dry run, do not actually perform action
+  -d, --debug           Enable debugging during execution.
+  -r, --readable        Display output in human readable formant.
+  -c CONFIG, --config CONFIG
+                        Specify a path to an alternate config file
+  -u USER, --user USER  user key
+  -t TOKEN, --token TOKEN
+                        application token
+  -m MSG, --msg MSG     Text of message
+  -p, --pri             Set high Priority
 
 
 =============================================================================
