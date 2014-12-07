@@ -29,6 +29,17 @@ No docs, read the code :P
 
 Not likely to make any changes to it.
 
+Usage: svncheck.py [options]
+
+Options:
+  -h, --help            show this help message and exit
+  -c, --clutter         leave checked out testdir alone.
+  -v, --verbose         Extra info about stuff
+  -d, --debug           Set logging level to debug
+  -s SERVER, --server=SERVER
+                        SVN server
+  -u URI, --uri=URI     Test target file path
+
 
 =============================================================================
 
