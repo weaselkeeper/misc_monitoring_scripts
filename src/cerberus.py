@@ -63,8 +63,8 @@ log = logging.getLogger(PROJECTNAME)
 pushover_host = 'api.pushover.net'
 pushover_port = 443
 
-class cerberus(object):
-    """ Instantiates a cerberus object, use it to send notifications """
+class Cerberus(object):
+    """ Instantiates a Cerberus object, use it to send notifications """
     log.debug('In class Cerberus')
 
     def __init__(self):
@@ -80,7 +80,7 @@ class cerberus(object):
         result = conn.getresponse()
         if args.debug:
             print result
-        log.debug('leaving run in cerberus class')
+        log.debug('leaving run in Cerberus class')
         return result
 
 
@@ -163,7 +163,7 @@ if __name__ == "__main__":
 
         # and now we can do, whatever it is, we do.
 
-    barkingDog = cerberus()
+    barkingDog = Cerberus()
 
     options = get_config(args)
 
