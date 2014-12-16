@@ -83,6 +83,9 @@ class Cerberus(object):
         log.debug('leaving run in Cerberus class')
         return result
 
+    def clear(self, conn):
+        """ Clear out all objects"""
+        conn.close()
 
 def get_config(_args):
     """ Now parse the config file.  Get any and all info from config file."""
