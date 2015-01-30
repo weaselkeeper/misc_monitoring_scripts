@@ -141,8 +141,8 @@ def get_IP(nameserver, queryhost, querytype="A"):
                   querytype, nameserver, queryhost)
         answers = resolver.query(queryhost, querytype)
         log.debug("Got %s from %s for %s", answers, nameserver, queryhost)
-    except (dns.resolver.NXDOMAIN, dns.resolver.Timeout):
-        log.debug("Can not find domain")
+    except (dns.resolver.NXDOMAIN, dns.resolver.Timeout) as err:
+        log.debug("Can not find domain %s", err)
         answers = [None]
         log.debug("Got Nothing from %s for %s", nameserver, queryhost)
     if args.verbose:
