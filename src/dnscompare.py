@@ -43,6 +43,8 @@ PROJECTNAME = 'dnscompare'
 
 import sys
 import logging
+from random import shuffle
+
 try:
     import dns.resolver
     import dns.zone
@@ -120,6 +122,8 @@ def get_options():
                         help='do not print results, output return code')
     parser.add_argument('-L', '--hostlist', action='store',
                         help='hostlist file to query for')
+    parser.add_argument('-r', '--random', action='store_true',
+                        help='Randomise query from list')
 
     _args = parser.parse_args()
     _args.usage = PROJECTNAME + ".py [options]"
@@ -186,6 +190,8 @@ def run():
         hostlist = _list.readlines()
         if args.verbose:
             print hostlist
+        if args.random:
+            shuffle(hostlist)
 
     elif type(args.host) != list:
         hostlist = [args.host, ]
