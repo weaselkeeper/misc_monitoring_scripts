@@ -78,8 +78,6 @@ build-srpm: spec
 build-rpm: spec
 	$(RPM) -bb $(RPM_DEFINES) $(SPECFILE)
 
-all: srpm
-
 sources: spec
 	mkdir $(NAME)
 	cp -r src/* $(NAME)
