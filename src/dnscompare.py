@@ -42,6 +42,7 @@ PROJECTNAME = 'dnscompare'
 
 
 import sys
+import time
 import logging
 from random import shuffle
 
@@ -139,6 +140,9 @@ def get_options():
 def get_IP(nameserver, queryhost, _req_delay, querytype="A"):
     """ return all the requested records for queryhost, defaults to A record"""
     log.debug("in get_IP")
+    if _req_delay > 0:
+        log.debug("pausing for %2.2f sec", _req_delay)
+        time.sleep(_req_delay)
     resolver = dns.resolver.Resolver()
     resolver.nameservers = [nameserver]
     try:
@@ -218,7 +222,7 @@ if __name__ == "__main__":
     if args.config:
         get_config(args.config)
     if args.delay:
-        req_delay = args.delay
+        req_delay = int(args.delay)/1000.00
     # and now we can do, whatever it is, we do.
     if args.verbose >= 2:
     # Enable debug level logging
