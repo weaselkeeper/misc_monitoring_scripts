@@ -70,6 +70,9 @@ logging.getLogger(PROJECTNAME).addHandler(console)
 log = logging.getLogger(PROJECTNAME)
 
 
+# Set a couple defaults
+req_delay = 0 # default delay unless set by -d/--delay option
+
 def get_config(config):
     """ Read and parse config file"""
     log.debug("Getting config file")
@@ -124,6 +127,8 @@ def get_options():
                         help='hostlist file to query for')
     parser.add_argument('-r', '--random', action='store_true',
                         help='Randomise query from list')
+    parser.add_argument('-d', '--delay', action='store',
+                        help='Insert a delay in ms between each request')
 
     _args = parser.parse_args()
     _args.usage = PROJECTNAME + ".py [options]"
@@ -131,7 +136,7 @@ def get_options():
     return _args
 
 
-def get_IP(nameserver, queryhost, querytype="A"):
+def get_IP(nameserver, queryhost, _req_delay, querytype="A"):
     """ return all the requested records for queryhost, defaults to A record"""
     log.debug("in get_IP")
     resolver = dns.resolver.Resolver()
@@ -168,12 +173,12 @@ def answers_compare(host, answer1, answer2):
 def run_query(host):
     """ query for the host against both resolvers"""
     try:
-        answer1 = get_IP(args.resolver1, host, args.query)
+        answer1 = get_IP(args.resolver1, host, req_delay, args.query)
     except dns.resolver.NoAnswer:
         print "%s No answer from %s"% (host, args.resolver1)
         answer1 = None
     try:
-        answer2 = get_IP(args.resolver2, host, args.query)
+        answer2 = get_IP(args.resolver2, host, req_delay, args.query)
     except dns.resolver.NoAnswer:
         print "%s  No answer from %s" % (host, args.resolver2)
         answer2 = None
@@ -212,6 +217,8 @@ if __name__ == "__main__":
         get_zonelist(args.resolver1, args.host)
     if args.config:
         get_config(args.config)
+    if args.delay:
+        req_delay = args.delay
     # and now we can do, whatever it is, we do.
     if args.verbose >= 2:
     # Enable debug level logging
