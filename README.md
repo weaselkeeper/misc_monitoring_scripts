@@ -135,6 +135,8 @@ dnscompare.py
 
 Compare host lookups across two different resolvers.  Useful to check sync of
 resolvers, as well as check against dns hijacking and cache poisoning.
+compare results from two dns resolvers
+
 optional arguments:
   -h, --help            show this help message and exit
   -c CONFIG, --config CONFIG
@@ -152,4 +154,6 @@ optional arguments:
   -q, --quiet           do not print results, output return code
   -L HOSTLIST, --hostlist HOSTLIST
                         hostlist file to query for
-
+  -r, --random          Randomise query from list
+  -d DELAY, --delay DELAY
+                        Insert a delay in ms between each request
