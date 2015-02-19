@@ -130,6 +130,9 @@ def get_options():
                         help='Randomise query from list')
     parser.add_argument('-d', '--delay', action='store',
                         help='Insert a delay in ms between each request')
+    parser.add_argument('--nofollow', action='store_truea',
+                        help='Do not follow cnames when resolving, just return
+                        info for the cname, do not get info for A record.')
 
     _args = parser.parse_args()
     _args.usage = PROJECTNAME + ".py [options]"
