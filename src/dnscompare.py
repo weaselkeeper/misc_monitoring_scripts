@@ -121,7 +121,8 @@ def get_options():
     parser.add_argument('-Q', '--query', action='store',
                         help='Record type to query for', default='A')
     parser.add_argument('-Z', '--zoneXfer', action='store_true',
-                        help='list domains, requires -f resolver and -H domain')
+                        help='list domains, requires -f resolver and -H domain\
+                                Also, zone xfer must be enabled on resolver')
     parser.add_argument('-q', '--quiet', action='store_true',
                         help='do not print results, output return code')
     parser.add_argument('-L', '--hostlist', action='store',
