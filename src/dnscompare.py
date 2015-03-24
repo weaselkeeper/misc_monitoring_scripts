@@ -145,7 +145,7 @@ def get_IP(nameserver, queryhost, _req_delay, querytype="A"):
     """ return all the requested records for queryhost, defaults to A record"""
     log.debug("in get_IP")
     if _req_delay > 0:
-        msdel=_req_delay*1000
+        msdel = _req_delay*1000
         log.debug("pausing for %2.2f msec", msdel)
         time.sleep(_req_delay)
     resolver = dns.resolver.Resolver()
