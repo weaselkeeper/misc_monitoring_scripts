@@ -61,8 +61,7 @@ import sys
 
 logging.basicConfig(level=logging.WARN,
                     formate='%(asctime)s %(levelname)s - %(message)s',
-                    datefmt='%y.%m.%d %H:%M:%S'
-                    )
+                    datefmt='%y.%m.%d %H:%M:%S')
 console = logging.StreamHandler(sys.stderr)
 console.setLevel(logging.WARN)
 logging.getLogger('check_unmonitored').addHandler(console)
