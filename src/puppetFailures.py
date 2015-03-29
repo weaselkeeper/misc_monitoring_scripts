@@ -164,4 +164,4 @@ for line in ROWS:
     os.write(zabbix_send_datafile[0], runstatus+'\n')
 
 subprocess.Popen([zabbix_send, '-c', zabbix_send_config, zabbix_send_options,
-                 '-i', zabbix_send_datafile[1]])
+                  '-i', zabbix_send_datafile[1]])
