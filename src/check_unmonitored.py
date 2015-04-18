@@ -152,8 +152,7 @@ def get_db(configuration):
         _con = db.connect(host=configuration['server'],
                           db=configuration['db'],
                           user=configuration['user'],
-                          passwd=configuration['pass']
-                          )
+                          passwd=configuration['pass'])
         log.debug('db connection made')
     except db.Error as err:
         log.warn("cannot connect to database")
