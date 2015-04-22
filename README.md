@@ -135,6 +135,7 @@ dnscompare.py
 
 Compare host lookups across two different resolvers.  Useful to check sync of
 resolvers, as well as check against dns hijacking and cache poisoning.
+
 compare results from two dns resolvers
 
 optional arguments:
@@ -150,10 +151,14 @@ optional arguments:
                         Second resolver
   -Q QUERY, --query QUERY
                         Record type to query for
-  -Z, --zoneXfer        list domains, requires -f resolver and -H domain
+  -Z, --zoneXfer        list domains, requires -f resolver and -H domain Also,
+                        zone xfer must be enabled on resolver
   -q, --quiet           do not print results, output return code
   -L HOSTLIST, --hostlist HOSTLIST
                         hostlist file to query for
   -r, --random          Randomise query from list
   -d DELAY, --delay DELAY
                         Insert a delay in ms between each request
+  --nofollow            Do not follow cnames when resolving, just return info
+                        for the cname, do not get info for A record.
+
