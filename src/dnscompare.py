@@ -181,12 +181,12 @@ def run_query(host):
     """ query for the host against both resolvers"""
     try:
         answer1 = get_IP(args.resolver1, host, req_delay, args.query)
-    except dns.resolver.NoAnswer:
+    except (dns.resolver.NoAnswer,dns.resolver.NoNameservers):
         print "%s No answer from %s"% (host, args.resolver1)
         answer1 = None
     try:
         answer2 = get_IP(args.resolver2, host, req_delay, args.query)
-    except dns.resolver.NoAnswer:
+    except (dns.resolver.NoAnswer,  dns.resolver.NoNameservers):
         print "%s  No answer from %s" % (host, args.resolver2)
         answer2 = None
     if args.verbose:
