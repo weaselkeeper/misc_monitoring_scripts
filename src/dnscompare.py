@@ -173,7 +173,6 @@ def answers_compare(host, answer1, answer2):
         if not args.quiet:
             print host, 'all good'
     else:
-        if not args.quiet:
             print host, 'something not right'
 
 
