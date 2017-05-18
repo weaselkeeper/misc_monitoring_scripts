@@ -168,9 +168,9 @@ optional arguments:
   -H HOST, --host HOST  host to query for
   -n, --dry-run         Dry run, do not actually perform action
   -v, --verbose         Verbose output, move v means more verbose
-  -f RESOLVER1, --resolver1 RESOLVER1
+  -f RESOLVER1, --resolver1 RESOLVER1 (IP only, does not lookup DNS entry)
                         First resolver
-  -s RESOLVER2, --resolver2 RESOLVER2
+  -s RESOLVER2, --resolver2 RESOLVER2 (IP only, does not lookup DNS entry) 
                         Second resolver
   -Q QUERY, --query QUERY
                         Record type to query for

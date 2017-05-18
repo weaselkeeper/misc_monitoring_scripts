@@ -115,9 +115,9 @@ def get_options():
                         help='Verbose output, move v means more verbose',
                         default=None)
     parser.add_argument('-f', '--resolver1', action='store',
-                        help='First resolver')
+                        help='First resolver. Must be IP')
     parser.add_argument('-s', '--resolver2', action='store',
-                        help='Second resolver')
+                        help='Second resolver. Must be IP')
     parser.add_argument('-Q', '--query', action='store',
                         help='Record type to query for', default='A')
     parser.add_argument('-Z', '--zoneXfer', action='store_true',
