@@ -1,4 +1,11 @@
-misc_monitoring_scripts
+# README
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table Contents**
+
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+#misc_monitoring_scripts
 =======================
 
 A few small monitoring related scripts.
@@ -6,7 +13,7 @@ URL: https://github.com/weaselkeeper/misc_monitoring_scripts
 
 ==============================================================================
 
-puppetFailures.py
+#puppetFailures.py
 =====================
 
 Monitor a puppet dashboard instance for puppet failures, and stuff them into 
@@ -15,7 +22,7 @@ a zabbix backend database for alerting/tracking
 
 ==============================================================================
 
-svncheck
+#svncheck
 ===========
 
 Wrote this a while ago to test a remote svn repo mirror when the expensive svn
@@ -29,6 +36,8 @@ No docs, read the code :P
 
 Not likely to make any changes to it.
 
+
+'''
 Usage: svncheck.py [options]
 
 Options:
@@ -39,11 +48,11 @@ Options:
   -s SERVER, --server=SERVER
                         SVN server
   -u URI, --uri=URI     Test target file path
-
+'''
 
 =============================================================================
 
-check_unmonitored
+#check_unmonitored
 ===========
 
 Description: Track systems in zabbix that are in unmonitored state.
@@ -60,6 +69,7 @@ Re-enabling monitoring  if any unmonitored hosts not in the whitelist groups
 remain in unmonitored state for longer than a configurable amount (set to 24
 hrs by default)
 
+'''
 usage: check_unmonitored.py [-h] [-n] [-d] [-c CONFIG]
 
 Pass cli options to script
@@ -70,11 +80,11 @@ optional arguments:
                         changes to the DB
   -d, --debug
   -c CONFIG, --config CONFIG
-
+'''
 
 =============================================================================
 
-webapp_monitor.py
+#webapp_monitor.py
 =================
 
 This is a standalone monitor written in python, for webapps that can return 
@@ -90,6 +100,7 @@ MONITOR_URL, as well as configuring the checks in the checks() function.
 If one of the checks is triggered, an email will be sent via local mailserver
 to the specified MAILTO. 
 
+'''
 usage: webapp_monitor.py [-h] [-n] [-d]
 
 Pass cli options to script
@@ -99,16 +110,18 @@ optional arguments:
   -n, --noreport  run the check, but do not trigger a report
   -d, --debug
 
-
+'''
 =============================================================================
 
-cereberus.py
+#cereberus.py
 ==================
 
 A tool used to send alerts via pushover <https://pushover.net>
 
 Unlike SMS and email, you know if the message was received or not.
 
+
+'''
 usage: cerberus.py [-h] [-n] [-d] [-r] [-c CONFIG] [-u USER] [-t TOKEN]
                    [-m MSG] [-p]
 
@@ -126,11 +139,11 @@ optional arguments:
                         application token
   -m MSG, --msg MSG     Text of message
   -p, --pri             Set high Priority
-
+'''
 
 =============================================================================
 
-dnscompare.py
+#dnscompare.py
 ==================
 
 Compare host lookups across two different resolvers.  Useful to check sync of
@@ -138,6 +151,7 @@ resolvers, as well as check against dns hijacking and cache poisoning.
 
 compare results from two dns resolvers
 
+'''
 optional arguments:
   -h, --help            show this help message and exit
   -c CONFIG, --config CONFIG
@@ -161,4 +175,4 @@ optional arguments:
                         Insert a delay in ms between each request
   --nofollow            Do not follow cnames when resolving, just return info
                         for the cname, do not get info for A record.
-
+'''
