@@ -68,7 +68,7 @@ Description: Track systems in zabbix that are in unmonitored state.
 in Zabbix. But it's possible to forget to re-enable monitoring after the need
 to disable it has passed.  While maintenance periods can be set, they are
 sometimes not flexible enough. So, to alert us if a host is left in unmonitored
-state too long, we present forgetmentnot.
+state too long, we present forgetmenot.
 
 The scope is simple, check zabbix for unmonitored hosts that don't belong to a
 whitelist of host hostgroups. (in our case, decommissioned, and spare servers)
