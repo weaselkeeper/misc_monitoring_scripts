@@ -8,7 +8,6 @@
 - [#svncheck](#svncheck)
 - [#check_unmonitored](#check_unmonitored)
 - [#webapp_monitor.py](#webapp_monitorpy)
-- ['''](#)
 - [#cereberus.py](#cereberuspy)
 - [#dnscompare.py](#dnscomparepy)
 
@@ -109,6 +108,7 @@ If one of the checks is triggered, an email will be sent via local mailserver
 to the specified MAILTO. 
 
 '''
+
 usage: webapp_monitor.py [-h] [-n] [-d]
 
 Pass cli options to script
