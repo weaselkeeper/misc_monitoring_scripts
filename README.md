@@ -12,25 +12,20 @@
 - [#dnscompare.py](#dnscomparepy)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-#misc_monitoring_scripts
-=======================
+# misc_monitoring_scripts
 
 A few small monitoring related scripts.
 URL: https://github.com/weaselkeeper/misc_monitoring_scripts
 
-==============================================================================
 
-#puppetFailures.py
-=====================
+# puppetFailures.py
 
 Monitor a puppet dashboard instance for puppet failures, and stuff them into 
 a zabbix backend database for alerting/tracking
 
 
-==============================================================================
 
-#svncheck
-===========
+# svncheck
 
 Wrote this a while ago to test a remote svn repo mirror when the expensive svn
 mirroring package we had paid too much for couldn't handle the high latency
