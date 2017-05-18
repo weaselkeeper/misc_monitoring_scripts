@@ -3,6 +3,14 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table Contents**
 
+- [#misc_monitoring_scripts](#misc_monitoring_scripts)
+- [#puppetFailures.py](#puppetfailurespy)
+- [#svncheck](#svncheck)
+- [#check_unmonitored](#check_unmonitored)
+- [#webapp_monitor.py](#webapp_monitorpy)
+- ['''](#)
+- [#cereberus.py](#cereberuspy)
+- [#dnscompare.py](#dnscomparepy)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 #misc_monitoring_scripts
@@ -111,6 +119,7 @@ optional arguments:
   -d, --debug
 
 '''
+
 =============================================================================
 
 #cereberus.py
