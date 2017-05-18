@@ -3,9 +3,9 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table Contents**
 
-- [#misc_monitoring_scripts](#misc_monitoring_scripts)
-- [#puppetFailures.py](#puppetfailurespy)
-- [#svncheck](#svncheck)
+- [misc_monitoring_scripts](#misc_monitoring_scripts)
+- [puppetFailures.py](#puppetfailurespy)
+- [svncheck](#svncheck)
 - [#check_unmonitored](#check_unmonitored)
 - [#webapp_monitor.py](#webapp_monitorpy)
 - [#cereberus.py](#cereberuspy)
@@ -52,10 +52,8 @@ Options:
   -u URI, --uri=URI     Test target file path
 ```
 
-=============================================================================
 
-#check_unmonitored
-===========
+# check_unmonitored
 
 Description: Track systems in zabbix that are in unmonitored state.
 
@@ -84,10 +82,8 @@ optional arguments:
   -c CONFIG, --config CONFIG
 ```
 
-=============================================================================
 
-#webapp_monitor.py
-=================
+# webapp_monitor.py
 
 This is a standalone monitor written in python, for webapps that can return 
 json data. It is meant to be simple, and to have low impact on the webserver,
@@ -115,10 +111,8 @@ optional arguments:
 
 ```
 
-=============================================================================
 
-#cereberus.py
-==================
+# cereberus.py
 
 A tool used to send alerts via pushover <https://pushover.net>
 
@@ -145,10 +139,8 @@ optional arguments:
   -p, --pri             Set high Priority
 ```
 
-=============================================================================
 
-#dnscompare.py
-==================
+# dnscompare.py
 
 Compare host lookups across two different resolvers.  Useful to check sync of
 resolvers, as well as check against dns hijacking and cache poisoning.
